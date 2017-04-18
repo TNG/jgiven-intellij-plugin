@@ -1,0 +1,52 @@
+plugins {
+    id "org.jetbrains.intellij" version "0.2.7"
+}
+
+apply plugin: 'org.jetbrains.intellij'
+
+intellij {
+    version '2017.1'
+    updateSinceUntilBuild false
+    pluginName 'jgiven-intellij-plugin'
+
+}
+
+configurations {
+    provided
+}
+
+sourceSets {
+    main {
+        java {
+            compileClasspath += configurations.provided
+            runtimeClasspath += configurations.provided
+        }
+        resources {
+        }
+    }
+    test {
+        java {
+            compileClasspath += configurations.provided
+            runtimeClasspath += configurations.provided
+        }
+        resources {
+        }
+    }
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+}
+
+test {
+    doFirst {
+        systemProperty("idea.plugins.path", project.rootDir.canonicalPath + "/.test-plugins")
+    }
+    testLogging {
+        exceptionFormat = 'full'
+        showStandardStreams = true
+    }
+}

@@ -1,0 +1,18 @@
+<idea-plugin>
+    <id>JGivenPlugin</id>
+    <name>JGiven IntelliJ Plugin</name>
+    <version>0.0.1</version>
+
+    <description>JGiven IntelliJ Plugin</description>
+
+    <vendor email="matthias.klass@tngtech.com">Matthias Klaß</vendor>
+
+    <!-- Intellij 12+ -->
+    <idea-version since-build="123"/>
+
+    <extensions defaultExtensionNs="com.intellij">
+        <referencesSearch implementation="com.tngtech.jgiven.reference.ReferenceProvider"/>
+        <codeInsight.lineMarkerProvider language="JAVA"
+                                        implementationClass="com.tngtech.jgiven.line.marker.LineMarkerProvider"/>
+    </extensions>
+</idea-plugin>

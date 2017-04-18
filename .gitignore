@@ -1,0 +1,11 @@
+target/
+*.*~
+*.iml
+.idea
+build
+.gradle
+classes
+.gradletasknamecache
+copy
+test-system
+test-config
