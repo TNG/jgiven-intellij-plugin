@@ -26,7 +26,7 @@ public class LineMarkerProvider implements com.intellij.codeInsight.daemon.LineM
 
     @Nullable
     @Override
-    public com.intellij.codeInsight.daemon.LineMarkerInfo getLineMarkerInfo(@NotNull PsiElement element) {
+    public MyLineMarkerInfo getLineMarkerInfo(@NotNull PsiElement element) {
         if (!scenarioStateProvider.isJGivenScenarioState(element)) {
             return null;
         }
@@ -35,7 +35,7 @@ public class LineMarkerProvider implements com.intellij.codeInsight.daemon.LineM
             return null;
         }
 
-        return new com.tngtech.jgiven.line.marker.LineMarkerInfo(element, Icons.JGIVEN, new MarkerType("jgiven", (e) -> "JGiven States", new LineMarkerNavigator() {
+        return new MyLineMarkerInfo(element, Icons.JGIVEN, new MarkerType("jgiven", (e) -> "JGiven States", new LineMarkerNavigator() {
 
             @Override
             public void browse(MouseEvent e, PsiElement element) {
@@ -50,7 +50,7 @@ public class LineMarkerProvider implements com.intellij.codeInsight.daemon.LineM
     }
 
     private List<PsiField> allReferencingFields(@NotNull PsiField element) {
-        return scenarioStateReferenceProvider.findReferences(element)
+        return scenarioStateReferenceProvider.findReferences(element, 10)
                 .stream().map(this::fieldOf)
                 .collect(Collectors.toList());
     }

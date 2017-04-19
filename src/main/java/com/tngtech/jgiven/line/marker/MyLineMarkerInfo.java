@@ -11,11 +11,11 @@ import org.jetbrains.annotations.NotNull;
 import javax.swing.*;
 import java.util.List;
 
-public class LineMarkerInfo extends MergeableLineMarkerInfo<PsiElement> {
+public class MyLineMarkerInfo extends MergeableLineMarkerInfo<PsiElement> {
 
     private final String text;
 
-    public LineMarkerInfo(@NotNull PsiElement element, Icon icon, @NotNull MarkerType markerType, String text) {
+    public MyLineMarkerInfo(@NotNull PsiElement element, Icon icon, @NotNull MarkerType markerType, String text) {
         super(element, element.getTextRange(), icon, Pass.UPDATE_ALL, markerType.getTooltip(),
                 markerType.getNavigationHandler(), GutterIconRenderer.Alignment.LEFT);
         this.text = text;
@@ -23,7 +23,7 @@ public class LineMarkerInfo extends MergeableLineMarkerInfo<PsiElement> {
 
     @Override
     public boolean canMergeWith(@NotNull MergeableLineMarkerInfo<?> info) {
-        if (!(info instanceof LineMarkerInfo)) return false;
+        if (!(info instanceof MyLineMarkerInfo)) return false;
         PsiElement otherElement = info.getElement();
         PsiElement myElement = getElement();
         return otherElement != null && myElement != null;
