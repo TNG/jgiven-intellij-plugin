@@ -6,9 +6,12 @@ import com.intellij.codeInsight.daemon.impl.LineMarkerNavigator;
 import com.intellij.codeInsight.daemon.impl.MarkerType;
 import com.intellij.codeInsight.daemon.impl.PsiElementListNavigator;
 import com.intellij.ide.util.DefaultPsiElementCellRenderer;
+import com.intellij.openapi.project.Project;
+import com.intellij.openapi.roots.FileIndexFacade;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiReference;
+import com.intellij.psi.search.ProjectScopeImpl;
 import com.tngtech.jgiven.scenario.state.ScenarioStateAnnotationProvider;
 import com.tngtech.jgiven.scenario.state.ScenarioStateReferenceProvider;
 import com.tngtech.jgiven.util.PsiElementUtil;
@@ -82,7 +85,8 @@ public class LineMarkerProvider implements com.intellij.codeInsight.daemon.LineM
     }
 
     private List<PsiField> allReferencingFields(@NotNull PsiField element) {
-        return scenarioStateReferenceProvider.findReferences(element, 10)
+        Project project = element.getProject();
+        return scenarioStateReferenceProvider.findReferences(new ProjectScopeImpl(project, FileIndexFacade.getInstance(project)), element, 10)
                 .stream().map(this::fieldOf)
                 .collect(Collectors.toList());
     }

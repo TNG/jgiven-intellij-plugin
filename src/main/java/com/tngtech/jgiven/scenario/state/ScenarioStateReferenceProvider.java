@@ -1,8 +1,12 @@
 package com.tngtech.jgiven.scenario.state;
 
+import com.intellij.openapi.fileTypes.StdFileTypes;
+import com.intellij.openapi.project.Project;
 import com.intellij.psi.PsiClass;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiReference;
+import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.search.SearchScope;
 import com.intellij.psi.search.searches.ReferencesSearch;
 import com.intellij.psi.util.PsiTypesUtil;
 import com.intellij.util.Processor;
@@ -13,21 +17,28 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
+import static com.intellij.psi.search.GlobalSearchScopesCore.projectTestScope;
+
 public class ScenarioStateReferenceProvider {
     static final int ANY_NUMBER_OF_RESULTS = -1;
 
-    public List<PsiReference> findReferences(PsiField field, int maxNumberOfResults) {
+    public List<PsiReference> findReferences(SearchScope scope, PsiField field, int maxNumberOfResults) {
         PsiClass fieldClass = PsiTypesUtil.getPsiClass(field.getType());
         if (fieldClass == null) {
             return Collections.emptyList();
         }
+        Project project = field.getProject();
         PsiReferenceProcessor processor = new PsiReferenceProcessor(field, maxNumberOfResults);
-        ReferencesSearch.search(fieldClass).forEach(processor);
+        GlobalSearchScope javaFilesScope = GlobalSearchScope.getScopeRestrictedByFileTypes(GlobalSearchScope.allScope(project), StdFileTypes.JAVA);
+
+        scope = scope.intersectWith(projectTestScope(project)).intersectWith(javaFilesScope);
+
+        ReferencesSearch.search(fieldClass, scope).forEach(processor);
         return processor.results;
     }
 
-    public List<PsiReference> findReferences(PsiField field) {
-        return findReferences(field, ANY_NUMBER_OF_RESULTS);
+    public List<PsiReference> findReferences(SearchScope scope, PsiField field) {
+        return findReferences(scope, field, ANY_NUMBER_OF_RESULTS);
     }
 
     public boolean isTooGeneric(PsiField field) {

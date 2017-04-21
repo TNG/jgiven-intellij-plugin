@@ -29,7 +29,7 @@ public class ReferenceProvider extends QueryExecutorBase<PsiReference, Reference
                 return;
             }
             PsiField field = (PsiField) element;
-            scenarioStateReferenceProvider.findReferences(field).forEach(consumer::process);
+            scenarioStateReferenceProvider.findReferences(scope, field).forEach(consumer::process);
         });
     }
 }
