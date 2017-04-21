@@ -24,12 +24,11 @@ public class ReferenceProvider extends QueryExecutorBase<PsiReference, Reference
         ApplicationManager.getApplication().runReadAction(() -> {
             SearchScope scope = queryParameters.getEffectiveSearchScope();
             if (!scenarioStateProvider.isJGivenScenarioState(element)
-                    || !(scope instanceof GlobalSearchScope)
-                    || scenarioStateReferenceProvider.isTooGeneric((PsiField) element)) {
+                    || !(scope instanceof GlobalSearchScope)) {
                 return;
             }
             PsiField field = (PsiField) element;
-            scenarioStateReferenceProvider.findReferences(scope, field).forEach(consumer::process);
+            scenarioStateReferenceProvider.findReferences(field).forEach(consumer::process);
         });
     }
 }

@@ -13,7 +13,7 @@ public class ResolutionHandler {
             return false;
         }
         if (resolution != Resolution.NAME) {
-            return true;
+            return field.getType().getPresentableText().equalsIgnoreCase(fieldToSearch.getType().getPresentableText());
         }
         String fieldNameToSearch = fieldToSearch.getNameIdentifier().getText();
         String fieldName = field.getNameIdentifier().getText();

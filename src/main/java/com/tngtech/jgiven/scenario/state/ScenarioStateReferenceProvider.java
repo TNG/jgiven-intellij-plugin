@@ -2,83 +2,83 @@ package com.tngtech.jgiven.scenario.state;
 
 import com.intellij.openapi.fileTypes.StdFileTypes;
 import com.intellij.openapi.project.Project;
-import com.intellij.psi.PsiClass;
-import com.intellij.psi.PsiField;
-import com.intellij.psi.PsiReference;
+import com.intellij.psi.*;
+import com.intellij.psi.impl.light.LightMemberReference;
 import com.intellij.psi.search.GlobalSearchScope;
 import com.intellij.psi.search.SearchScope;
-import com.intellij.psi.search.searches.ReferencesSearch;
+import com.intellij.psi.search.searches.AnnotatedElementsSearch;
 import com.intellij.psi.util.PsiTypesUtil;
 import com.intellij.util.Processor;
 import com.tngtech.jgiven.resolution.ResolutionHandler;
-import com.tngtech.jgiven.util.PsiElementUtil;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-import static com.intellij.psi.search.GlobalSearchScopesCore.projectTestScope;
+import static com.tngtech.jgiven.Annotations.getScenarioStateClasses;
 
 public class ScenarioStateReferenceProvider {
     static final int ANY_NUMBER_OF_RESULTS = -1;
 
-    public List<PsiReference> findReferences(SearchScope scope, PsiField field, int maxNumberOfResults) {
+    public List<PsiReference> findReferences(PsiField field, int maxNumberOfResults) {
         PsiClass fieldClass = PsiTypesUtil.getPsiClass(field.getType());
         if (fieldClass == null) {
             return Collections.emptyList();
         }
         Project project = field.getProject();
-        PsiReferenceProcessor processor = new PsiReferenceProcessor(field, maxNumberOfResults);
-        GlobalSearchScope javaFilesScope = GlobalSearchScope.getScopeRestrictedByFileTypes(GlobalSearchScope.allScope(project), StdFileTypes.JAVA);
+        PsiManager manager = PsiManager.getInstance(project);
+        PsiReferenceProcessor processor = new PsiReferenceProcessor(field, maxNumberOfResults, manager);
 
-        scope = scope.intersectWith(projectTestScope(project)).intersectWith(javaFilesScope);
+        SearchScope scope = GlobalSearchScope.everythingScope(project).intersectWith(javaFilesScope(project));
 
-        ReferencesSearch.search(fieldClass, scope).forEach(processor);
+        findPsiFields(project, (GlobalSearchScope) scope, processor);
         return processor.results;
     }
 
-    public List<PsiReference> findReferences(SearchScope scope, PsiField field) {
-        return findReferences(scope, field, ANY_NUMBER_OF_RESULTS);
+    @NotNull
+    private GlobalSearchScope javaFilesScope(Project project) {
+        return GlobalSearchScope.getScopeRestrictedByFileTypes(GlobalSearchScope.allScope(project), StdFileTypes.JAVA);
     }
 
-    public boolean isTooGeneric(PsiField field) {
-        PsiClass clazz = PsiTypesUtil.getPsiClass(field.getType());
-        if (clazz == null) {
-            return true;
-        }
-        String name = clazz.getQualifiedName();
-        return name == null
-                || name.startsWith("java.")
-                || name.startsWith("com.google");
+    private void findPsiFields(Project project, GlobalSearchScope scope, Processor<PsiField> processor) {
+        getScenarioStateClasses(project)
+                .forEach(a -> AnnotatedElementsSearch.searchPsiFields(a, scope).forEach(processor));
     }
 
-    private static class PsiReferenceProcessor implements Processor<PsiReference> {
+    public List<PsiReference> findReferences(PsiField field) {
+        return findReferences(field, ANY_NUMBER_OF_RESULTS);
+    }
+
+    private static class PsiReferenceProcessor implements Processor<PsiField> {
 
         private ScenarioStateAnnotationProvider scenarioStateProvider = new ScenarioStateAnnotationProvider();
         private ResolutionHandler resolutionHandler = new ResolutionHandler();
         private PsiField fieldToSearch;
         private int maxNumberOfResults;
+        private PsiManager manager;
         private List<PsiReference> results = new ArrayList<>();
 
-        PsiReferenceProcessor(PsiField fieldToSearch, int maxNumberOfResults) {
+        PsiReferenceProcessor(PsiField fieldToSearch, int maxNumberOfResults, PsiManager manager) {
             this.fieldToSearch = fieldToSearch;
             this.maxNumberOfResults = maxNumberOfResults;
+            this.manager = manager;
         }
 
         @Override
-        public boolean process(PsiReference psiReference) {
-            PsiField field = fieldOf(psiReference);
+        public boolean process(PsiField field) {
             if (scenarioStateProvider.isJGivenScenarioState(field)
                     && !fieldToSearch.equals(field)
                     && resolutionHandler.resolutionMatches(field, fieldToSearch)) {
 
-                results.add(psiReference);
+                results.add(new LightMemberReference(manager, field, PsiSubstitutor.EMPTY) {
+                    @Override
+                    public PsiElement getElement() {
+                        return field;
+                    }
+                });
             }
             return results.size() < maxNumberOfResults || maxNumberOfResults == ANY_NUMBER_OF_RESULTS;
-        }
-
-        private PsiField fieldOf(PsiReference r) {
-            return PsiElementUtil.findParentOfTypeOn(r.getElement(), PsiField.class).orElse(null);
         }
     }
 }

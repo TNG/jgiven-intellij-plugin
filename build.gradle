@@ -8,7 +8,6 @@ intellij {
     version '2017.1'
     updateSinceUntilBuild false
     pluginName 'jgiven-intellij-plugin'
-
 }
 
 configurations {
