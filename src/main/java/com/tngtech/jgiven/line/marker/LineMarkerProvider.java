@@ -21,6 +21,7 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class LineMarkerProvider implements com.intellij.codeInsight.daemon.LineMarkerProvider {
+    private static final String UNKNOWN_TEXT = "JGiven State (too many references)";
     private ScenarioStateAnnotationProvider scenarioStateProvider = new ScenarioStateAnnotationProvider();
     private ScenarioStateReferenceProvider scenarioStateReferenceProvider = new ScenarioStateReferenceProvider();
 
@@ -30,19 +31,40 @@ public class LineMarkerProvider implements com.intellij.codeInsight.daemon.LineM
         if (!scenarioStateProvider.isJGivenScenarioState(element)) {
             return null;
         }
-        List<PsiField> references = allReferencingFields((PsiField) element);
+        PsiField field = (PsiField) element;
+        if (scenarioStateReferenceProvider.isTooGeneric(field)) {
+            return new MyLineMarkerInfo(element, Icons.JGIVEN_UNKNOWN, new MarkerType("jgiven-unknown", (e) -> UNKNOWN_TEXT, doNotNavigateNavigator()), UNKNOWN_TEXT);
+        }
+        List<PsiField> references = allReferencingFields(field);
         if (references.isEmpty()) {
             return null;
         }
 
-        return new MyLineMarkerInfo(element, Icons.JGIVEN, new MarkerType("jgiven", (e) -> "JGiven States", new LineMarkerNavigator() {
+        return new MyLineMarkerInfo(element, Icons.JGIVEN, new MarkerType("jgiven", (e) -> "JGiven States", navigatorToEements()), "JGiven States");
+    }
+
+    @NotNull
+    private LineMarkerNavigator navigatorToEements() {
+        return new LineMarkerNavigator() {
 
             @Override
             public void browse(MouseEvent e, PsiElement element) {
                 PsiElementListNavigator.openTargets(e, Iterables.toArray(allReferencingFields((PsiField) element), PsiField.class),
                         "JGiven States", "", new DefaultPsiElementCellRenderer());
             }
-        }), "JGiven States");
+        };
+    }
+
+    @NotNull
+    private LineMarkerNavigator doNotNavigateNavigator() {
+        return new LineMarkerNavigator() {
+
+            @Override
+            public void browse(MouseEvent e, PsiElement element) {
+                PsiElementListNavigator.openTargets(e, new PsiField[0],
+                        "JGiven States", "", new DefaultPsiElementCellRenderer());
+            }
+        };
     }
 
     @Override

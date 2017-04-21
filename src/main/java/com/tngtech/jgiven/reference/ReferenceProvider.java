@@ -23,7 +23,9 @@ public class ReferenceProvider extends QueryExecutorBase<PsiReference, Reference
 
         ApplicationManager.getApplication().runReadAction(() -> {
             SearchScope scope = queryParameters.getEffectiveSearchScope();
-            if (!scenarioStateProvider.isJGivenScenarioState(element) || !(scope instanceof GlobalSearchScope)) {
+            if (!scenarioStateProvider.isJGivenScenarioState(element)
+                    || !(scope instanceof GlobalSearchScope)
+                    || scenarioStateReferenceProvider.isTooGeneric((PsiField) element)) {
                 return;
             }
             PsiField field = (PsiField) element;

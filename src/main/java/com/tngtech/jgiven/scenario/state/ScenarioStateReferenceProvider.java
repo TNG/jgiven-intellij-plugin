@@ -14,7 +14,7 @@ import java.util.Collections;
 import java.util.List;
 
 public class ScenarioStateReferenceProvider {
-    public static final int ANY_NUMBER_OF_RESULTS = -1;
+    static final int ANY_NUMBER_OF_RESULTS = -1;
 
     public List<PsiReference> findReferences(PsiField field, int maxNumberOfResults) {
         PsiClass fieldClass = PsiTypesUtil.getPsiClass(field.getType());
@@ -28,6 +28,17 @@ public class ScenarioStateReferenceProvider {
 
     public List<PsiReference> findReferences(PsiField field) {
         return findReferences(field, ANY_NUMBER_OF_RESULTS);
+    }
+
+    public boolean isTooGeneric(PsiField field) {
+        PsiClass clazz = PsiTypesUtil.getPsiClass(field.getType());
+        if (clazz == null) {
+            return true;
+        }
+        String name = clazz.getQualifiedName();
+        return name == null
+                || name.startsWith("java.")
+                || name.startsWith("com.google");
     }
 
     private static class PsiReferenceProcessor implements Processor<PsiReference> {
