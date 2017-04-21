@@ -14,5 +14,6 @@
         <referencesSearch implementation="com.tngtech.jgiven.reference.ReferenceProvider"/>
         <codeInsight.lineMarkerProvider language="JAVA"
                                         implementationClass="com.tngtech.jgiven.line.marker.LineMarkerProvider"/>
+        <usageTypeProvider implementation="com.tngtech.jgiven.reference.JGivenUsageTypeProvider"/>
     </extensions>
 </idea-plugin>
