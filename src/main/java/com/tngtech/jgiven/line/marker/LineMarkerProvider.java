@@ -18,6 +18,7 @@ import org.jetbrains.annotations.Nullable;
 import java.awt.event.MouseEvent;
 import java.util.Collection;
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class LineMarkerProvider implements com.intellij.codeInsight.daemon.LineMarkerProvider {
@@ -28,6 +29,11 @@ public class LineMarkerProvider implements com.intellij.codeInsight.daemon.LineM
     @Nullable
     @Override
     public MyLineMarkerInfo getLineMarkerInfo(@NotNull PsiElement element) {
+        return null;
+    }
+
+    @Nullable
+    private MyLineMarkerInfo collectMarkerFor(@NotNull PsiElement element) {
         if (!scenarioStateProvider.isJGivenScenarioState(element)) {
             return null;
         }
@@ -69,6 +75,10 @@ public class LineMarkerProvider implements com.intellij.codeInsight.daemon.LineM
 
     @Override
     public void collectSlowLineMarkers(@NotNull List<PsiElement> elements, @NotNull Collection<LineMarkerInfo> result) {
+        elements.stream()
+                .map(this::collectMarkerFor)
+                .filter(Objects::nonNull)
+                .forEach(result::add);
     }
 
     private List<PsiField> allReferencingFields(@NotNull PsiField element) {

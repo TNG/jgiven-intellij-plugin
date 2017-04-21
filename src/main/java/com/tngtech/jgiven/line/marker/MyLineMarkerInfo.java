@@ -14,11 +14,13 @@ import java.util.List;
 public class MyLineMarkerInfo extends MergeableLineMarkerInfo<PsiElement> {
 
     private final String text;
+    private final PsiElement element;
 
     public MyLineMarkerInfo(@NotNull PsiElement element, Icon icon, @NotNull MarkerType markerType, String text) {
         super(element, element.getTextRange(), icon, Pass.UPDATE_ALL, markerType.getTooltip(),
                 markerType.getNavigationHandler(), GutterIconRenderer.Alignment.LEFT);
         this.text = text;
+        this.element = element;
     }
 
     @Override
