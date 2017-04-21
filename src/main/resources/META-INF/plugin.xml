@@ -15,5 +15,6 @@
         <codeInsight.lineMarkerProvider language="JAVA"
                                         implementationClass="com.tngtech.jgiven.line.marker.LineMarkerProvider"/>
         <usageTypeProvider implementation="com.tngtech.jgiven.reference.JGivenUsageTypeProvider"/>
+        <useScopeEnlarger implementation="com.tngtech.jgiven.JGivenUseScopeEnlarger"/>
     </extensions>
 </idea-plugin>

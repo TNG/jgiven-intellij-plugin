@@ -38,6 +38,8 @@ repositories {
 }
 
 dependencies {
+    testCompile 'com.tngtech.jgiven:jgiven-junit:0.14.0'
+    testCompile 'org.assertj:assertj-core:2.2.0'
 }
 
 test {
