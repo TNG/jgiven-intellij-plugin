@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>JGivenPlugin</id>
     <name>JGiven IntelliJ Plugin</name>
-    <version>0.0.1</version>
+    <version>0.0.2</version>
 
     <description>JGiven IntelliJ Plugin</description>
 
