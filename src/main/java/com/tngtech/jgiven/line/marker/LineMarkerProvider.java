@@ -64,7 +64,7 @@ public class LineMarkerProvider implements com.intellij.codeInsight.daemon.LineM
     }
 
     private List<PsiField> allReferencingFields(@NotNull PsiField element) {
-        return scenarioStateReferenceProvider.findReferences(element, 10)
+        return scenarioStateReferenceProvider.findReferences(element, 20)
                 .stream().map(this::fieldOf)
                 .collect(Collectors.toList());
     }
