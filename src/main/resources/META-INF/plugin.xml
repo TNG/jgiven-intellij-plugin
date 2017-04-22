@@ -1,9 +1,9 @@
 <idea-plugin>
     <id>JGivenPlugin</id>
-    <name>JGiven IntelliJ Plugin</name>
+    <name>JGiven</name>
     <version>0.0.3</version>
 
-    <description>JGiven IntelliJ Plugin</description>
+    <description>JGiven</description>
 
     <vendor email="matthias.klass@tngtech.com">Matthias Klaß</vendor>
 
