@@ -14,7 +14,8 @@ public abstract class BaseTestCase extends LightCodeInsightFixtureTestCase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        libraryTestUtil = new LibraryTestUtil(myModule);
+        libraryTestUtil = new LibraryTestUtil(myModule)
+                .addJGiven();
     }
 
     @Override

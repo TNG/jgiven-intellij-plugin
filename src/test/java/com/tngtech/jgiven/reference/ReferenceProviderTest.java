@@ -1,17 +1,14 @@
 package com.tngtech.jgiven.reference;
 
 import com.google.common.collect.Iterables;
-import com.intellij.openapi.vfs.VirtualFile;
 import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiFile;
-import com.intellij.psi.search.GlobalSearchScope;
-import com.intellij.testFramework.fixtures.impl.CodeInsightTestFixtureImpl;
 import com.intellij.usageView.UsageInfo;
 import com.tngtech.jgiven.BaseTestCase;
+import org.jetbrains.annotations.NotNull;
 
-import java.util.Arrays;
-import java.util.Collection;
-import java.util.Set;
+import java.io.File;
+import java.util.*;
 import java.util.stream.Collectors;
 
 import static org.assertj.core.api.Assertions.assertThat;
@@ -19,35 +16,50 @@ import static org.assertj.core.api.Assertions.assertThat;
 @SuppressWarnings("ConstantConditions")
 public class ReferenceProviderTest extends BaseTestCase {
     public void test_find_Usages_for_type() throws Exception {
-        libraryTestUtil.addJGiven();
-        PsiFile[] files = myFixture.configureByFiles("ForClass.java", "StateA.java", "ForClassTypeReference.java",
-                "ForNameReference.java");
-        PsiElement element = myFixture.getElementAtCaret();
-        CodeInsightTestFixtureImpl codeInsightTestFixture = (CodeInsightTestFixtureImpl) myFixture;
-        Set<VirtualFile> virtualFiles = Arrays.stream(files).map(PsiFile::getVirtualFile).collect(Collectors.toSet());
+        configureByFile("ForClass.java");
 
-        Collection<UsageInfo> usages = codeInsightTestFixture.findUsages(element, GlobalSearchScope.filesScope(getProject(), virtualFiles));
+        Collection<UsageInfo> usages = findUsages();
 
-        assertThat(Iterables.getOnlyElement(usages).getFile().getName())
-                .contains("ForClassTypeReference.java");
+        assertThat(getOnlyUsageFilename(usages)).contains("ForClassTypeReference.java");
     }
 
     public void test_find_Usages_for_name() throws Exception {
-        libraryTestUtil.addJGiven();
-        PsiFile[] files = myFixture.configureByFiles("ForName.java", "StateA.java", "ForClassTypeReference.java",
-                "ForNameReference.java");
+        configureByFile("ForName.java");
+
+        Collection<UsageInfo> usages = findUsages();
+
+        assertThat(getOnlyUsageFilename(usages)).contains("ForNameReference.java");
+    }
+
+    @NotNull
+    private String getOnlyUsageFilename(Collection<UsageInfo> usages) {
+        return Iterables.getOnlyElement(usages).getFile().getName();
+    }
+
+    @NotNull
+    private Collection<UsageInfo> findUsages() {
         PsiElement element = myFixture.getElementAtCaret();
-        CodeInsightTestFixtureImpl codeInsightTestFixture = (CodeInsightTestFixtureImpl) myFixture;
-        Set<VirtualFile> virtualFiles = Arrays.stream(files).map(PsiFile::getVirtualFile).collect(Collectors.toSet());
-
-        Collection<UsageInfo> usages = codeInsightTestFixture.findUsages(element, GlobalSearchScope.filesScope(getProject(), virtualFiles));
-
-        assertThat(Iterables.getOnlyElement(usages).getFile().getName())
-                .contains("ForNameReference.java");
+        return myFixture.findUsages(element);
     }
 
     @Override
     protected String getTestDataSubDirectory() {
         return "findUsages";
+    }
+
+    private void configureByFile(String filename) {
+        List<String> files = new ArrayList<>();
+        files.add(filename);
+        files.addAll(getUsageFilesForAllTests());
+        String[] asArray = files.toArray(new String[files.size()]);
+        PsiFile[] loadedFiles = myFixture.configureByFiles(asArray);
+        assertThat(loadedFiles).hasSameSizeAs(files);
+    }
+
+    private Set<String> getUsageFilesForAllTests() {
+        return Arrays.stream(new File(getTestDataPath() + "/common").listFiles())
+                .map(File::getName)
+                .map(name -> "common/" + name)
+                .collect(Collectors.toSet());
     }
 }
