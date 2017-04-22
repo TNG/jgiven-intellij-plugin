@@ -10,6 +10,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiIdentifier;
 import com.intellij.psi.PsiReference;
+import com.tngtech.jgiven.Icons;
 import com.tngtech.jgiven.scenario.state.ScenarioStateReferenceProvider;
 import com.tngtech.jgiven.util.PsiElementUtil;
 import org.jetbrains.annotations.NotNull;

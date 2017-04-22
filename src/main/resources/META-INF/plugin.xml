@@ -16,5 +16,7 @@
                                         implementationClass="com.tngtech.jgiven.line.marker.LineMarkerProvider"/>
         <usageTypeProvider implementation="com.tngtech.jgiven.reference.JGivenUsageTypeProvider"/>
         <useScopeEnlarger implementation="com.tngtech.jgiven.JGivenUseScopeEnlarger"/>
+        <usageFilteringRuleProvider
+                implementation="com.tngtech.jgiven.scenario.state.ScenarioStateFilteringRuleProvider"/>
     </extensions>
 </idea-plugin>
