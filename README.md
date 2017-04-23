@@ -37,3 +37,8 @@ you'll have to install the plugin manually by following the steps below.
  
 
 ![Installation](README/installation.png)
+
+License
+-------
+
+Licensed under the Apache License, Version 2.0.
