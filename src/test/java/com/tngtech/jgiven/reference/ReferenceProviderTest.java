@@ -20,7 +20,7 @@ public class ReferenceProviderTest extends BaseTestCase {
 
         Collection<UsageInfo> usages = findUsages();
 
-        assertThat(getOnlyUsageFilename(usages)).contains("ForClassTypeReference.java");
+        assertThat(getOnlyUsageFilename(usages)).contains("SomeOtherReference.java");
     }
 
     public void test_find_Usages_for_name() throws Exception {
@@ -28,7 +28,15 @@ public class ReferenceProviderTest extends BaseTestCase {
 
         Collection<UsageInfo> usages = findUsages();
 
-        assertThat(getOnlyUsageFilename(usages)).contains("ForNameReference.java");
+        assertThat(getOnlyUsageFilename(usages)).contains("SomeReference.java");
+    }
+
+    public void test_find_Usages_for_java_lang_reference_resolves_by_name_and_not_by_type() throws Exception {
+        configureByFile("ForJavaLang.java");
+
+        Collection<UsageInfo> usages = findUsages();
+
+        assertThat(getOnlyUsageFilename(usages)).contains("SomeReference.java");
     }
 
     @NotNull
