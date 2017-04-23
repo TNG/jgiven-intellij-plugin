@@ -1,14 +1,19 @@
 package com.tngtech.jgiven.resolution;
 
-import com.intellij.psi.*;
-import com.intellij.psi.util.PsiTypesUtil;
+import com.intellij.psi.PsiAnnotation;
+import com.intellij.psi.PsiElement;
+import com.intellij.psi.PsiExpression;
+import com.intellij.psi.PsiField;
 import com.tngtech.jgiven.scenario.state.ScenarioStateAnnotationProvider;
 
 import javax.annotation.Nullable;
 import java.util.Optional;
 
 class ResolutionProvider {
+    static final String FIELD_RESOLUTION = "resolution";
     private ScenarioStateAnnotationProvider scenarioStateProvider = new ScenarioStateAnnotationProvider();
+    private AnnotationValueProvider annotationValueProvider = new AnnotationValueProvider();
+    private TypeIsTooGenericCalculator typeIsTooGeneric = new TypeIsTooGenericCalculator();
 
     @Nullable
     Resolution getResolutionFrom(PsiField field) {
@@ -17,13 +22,13 @@ class ResolutionProvider {
             return null;
         }
 
-        PsiExpression annotationValue = AnnotationUtils.getAnnotationValue(annotation, "resolution");
+        PsiExpression annotationValue = annotationValueProvider.getAnnotationValue(annotation, FIELD_RESOLUTION);
 
         return Optional.ofNullable(annotationValue)
                 .map(PsiElement::getText)
                 .map(t -> {
                     for (Resolution resolution : Resolution.values()) {
-                        if (t.contains(resolution.name())) {
+                        if (resolution != Resolution.AUTO && t.contains(resolution.name())) {
                             return resolution;
                         }
                     }
@@ -35,21 +40,8 @@ class ResolutionProvider {
      * Calculate default resolution. See {{@link com.tngtech.jgiven.impl.inject.ScenarioStateField#getResolution()}}
      */
     private Resolution getResolutionForFieldType(PsiField field) {
-        return typeIsTooGeneric(field.getType())
+        return typeIsTooGeneric.typeIsTooGeneric(field.getType())
                 ? Resolution.NAME
                 : Resolution.TYPE;
-    }
-
-    private boolean typeIsTooGeneric(PsiType type) {
-        PsiClass clazz = PsiTypesUtil.getPsiClass(type);
-        if (clazz == null) {
-            return false;
-        }
-        String qualifiedName = clazz.getQualifiedName();
-        return qualifiedName == null
-                || type instanceof PsiPrimitiveType
-                || qualifiedName.startsWith("java.lang")
-                || qualifiedName.startsWith("java.io")
-                || qualifiedName.startsWith("java.util");
     }
 }

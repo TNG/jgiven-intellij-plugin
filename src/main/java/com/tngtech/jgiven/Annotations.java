@@ -7,6 +7,7 @@ import com.intellij.psi.PsiClass;
 import com.intellij.psi.search.GlobalSearchScope;
 
 import java.util.Collection;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Annotations {
@@ -27,6 +28,7 @@ public class Annotations {
     public static Collection<PsiClass> getScenarioStateClasses(Project project) {
         return JGIVEN_SCENARIO_STATE_CLASS_NAMES.stream()
                 .map(a -> findPsiClass(a, JavaPsiFacade.getInstance(project), project))
+                .filter(Objects::nonNull)
                 .collect(Collectors.toSet());
     }
 }

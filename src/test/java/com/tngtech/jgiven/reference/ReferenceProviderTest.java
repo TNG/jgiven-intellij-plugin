@@ -1,73 +1,97 @@
 package com.tngtech.jgiven.reference;
 
-import com.google.common.collect.Iterables;
-import com.intellij.psi.PsiElement;
-import com.intellij.psi.PsiFile;
-import com.intellij.usageView.UsageInfo;
-import com.tngtech.jgiven.BaseTestCase;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.mock.MockApplication;
+import com.intellij.openapi.Disposable;
+import com.intellij.openapi.application.ApplicationManager;
+import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiReference;
+import com.intellij.psi.search.GlobalSearchScope;
+import com.intellij.psi.search.LocalSearchScope;
+import com.intellij.psi.search.searches.ReferencesSearch;
+import com.intellij.util.Processor;
+import com.tngtech.jgiven.scenario.state.ScenarioStateAnnotationProvider;
+import com.tngtech.jgiven.scenario.state.ScenarioStateReferenceProvider;
+import org.junit.Before;
+import org.junit.Rule;
+import org.junit.Test;
+import org.mockito.InjectMocks;
+import org.mockito.Mock;
+import org.mockito.junit.MockitoJUnit;
+import org.mockito.junit.MockitoRule;
 
-import java.io.File;
-import java.util.*;
-import java.util.stream.Collectors;
+import java.util.Arrays;
 
-import static org.assertj.core.api.Assertions.assertThat;
+import static org.mockito.Mockito.*;
 
-@SuppressWarnings("ConstantConditions")
-public class ReferenceProviderTest extends BaseTestCase {
-    public void test_find_Usages_for_type() throws Exception {
-        configureByFile("ForClass.java");
+public class ReferenceProviderTest {
 
-        Collection<UsageInfo> usages = findUsages();
+    @Rule
+    public MockitoRule mockitoRule = MockitoJUnit.rule();
+    @Mock
+    private ScenarioStateAnnotationProvider scenarioStateProvider;
+    @Mock
+    private ScenarioStateReferenceProvider scenarioStateReferenceProvider;
+    @Mock
+    private Processor<PsiReference> processor;
+    @InjectMocks
+    private ReferenceProvider referenceProvider;
 
-        assertThat(getOnlyUsageFilename(usages)).contains("SomeOtherReference.java");
+    @Before
+    public void setUp() throws Exception {
+        Disposable disposable = mock(Disposable.class);
+        ApplicationManager.setApplication(new MockApplication(disposable), disposable);
     }
 
-    public void test_find_Usages_for_name() throws Exception {
-        configureByFile("ForName.java");
+    @Test
+    public void should_process_reference() throws Exception {
+        // given
+        PsiReference reference1 = mock(PsiReference.class);
+        PsiReference reference2 = mock(PsiReference.class);
 
-        Collection<UsageInfo> usages = findUsages();
+        PsiField field = mock(PsiField.class);
+        ReferencesSearch.SearchParameters searchParameters = mock(ReferencesSearch.SearchParameters.class);
+        when(searchParameters.getElementToSearch()).thenReturn(field);
+        when(searchParameters.getEffectiveSearchScope()).thenReturn(mock(GlobalSearchScope.class));
+        when(scenarioStateReferenceProvider.findReferences(field)).thenReturn(Arrays.asList(reference1, reference2));
+        when(scenarioStateProvider.isJGivenScenarioState(field)).thenReturn(true);
 
-        assertThat(getOnlyUsageFilename(usages)).contains("SomeReference.java");
+        // when
+        referenceProvider.processQuery(searchParameters, processor);
+
+        // then
+        verify(processor).process(reference1);
+        verify(processor).process(reference2);
     }
 
-    public void test_find_Usages_for_java_lang_reference_resolves_by_name_and_not_by_type() throws Exception {
-        configureByFile("ForJavaLang.java");
+    @Test
+    public void should_not_process_reference_if_search_scope_is_not_global() throws Exception {
+        // given
+        PsiField field = mock(PsiField.class);
+        ReferencesSearch.SearchParameters searchParameters = mock(ReferencesSearch.SearchParameters.class);
+        when(searchParameters.getElementToSearch()).thenReturn(field);
+        when(searchParameters.getEffectiveSearchScope()).thenReturn(mock(LocalSearchScope.class));
+        when(scenarioStateProvider.isJGivenScenarioState(field)).thenReturn(true);
 
-        Collection<UsageInfo> usages = findUsages();
+        // when
+        referenceProvider.processQuery(searchParameters, processor);
 
-        assertThat(getOnlyUsageFilename(usages)).contains("SomeReference.java");
+        // then
+        verifyZeroInteractions(processor);
     }
 
-    @NotNull
-    private String getOnlyUsageFilename(Collection<UsageInfo> usages) {
-        return Iterables.getOnlyElement(usages).getFile().getName();
-    }
+    @Test
+    public void should_not_process_reference_if_element_is_not_a_JGiven_scenario_state() throws Exception {
+        // given
+        PsiField field = mock(PsiField.class);
+        ReferencesSearch.SearchParameters searchParameters = mock(ReferencesSearch.SearchParameters.class);
+        when(searchParameters.getElementToSearch()).thenReturn(field);
+        when(searchParameters.getEffectiveSearchScope()).thenReturn(mock(GlobalSearchScope.class));
+        when(scenarioStateProvider.isJGivenScenarioState(field)).thenReturn(false);
 
-    @NotNull
-    private Collection<UsageInfo> findUsages() {
-        PsiElement element = myFixture.getElementAtCaret();
-        return myFixture.findUsages(element);
-    }
+        // when
+        referenceProvider.processQuery(searchParameters, processor);
 
-    @Override
-    protected String getTestDataSubDirectory() {
-        return "findUsages";
-    }
-
-    private void configureByFile(String filename) {
-        List<String> files = new ArrayList<>();
-        files.add(filename);
-        files.addAll(getUsageFilesForAllTests());
-        String[] asArray = files.toArray(new String[files.size()]);
-        PsiFile[] loadedFiles = myFixture.configureByFiles(asArray);
-        assertThat(loadedFiles).hasSameSizeAs(files);
-    }
-
-    private Set<String> getUsageFilesForAllTests() {
-        return Arrays.stream(new File(getTestDataPath() + "/common").listFiles())
-                .map(File::getName)
-                .map(name -> "common/" + name)
-                .collect(Collectors.toSet());
+        // then
+        verifyZeroInteractions(processor);
     }
 }

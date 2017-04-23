@@ -1,4 +1,4 @@
 package a;
 
-class StateA {
+public class StateA {
 }

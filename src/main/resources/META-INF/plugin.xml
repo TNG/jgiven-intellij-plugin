@@ -17,6 +17,6 @@
         <usageTypeProvider implementation="com.tngtech.jgiven.reference.JGivenUsageTypeProvider"/>
         <useScopeEnlarger implementation="com.tngtech.jgiven.JGivenUseScopeEnlarger"/>
         <usageFilteringRuleProvider
-                implementation="com.tngtech.jgiven.scenario.state.ScenarioStateFilteringRuleProvider"/>
+                implementation="com.tngtech.jgiven.usage.filter.ScenarioStateFilteringRuleProvider"/>
     </extensions>
 </idea-plugin>

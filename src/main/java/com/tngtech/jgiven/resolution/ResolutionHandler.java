@@ -2,6 +2,8 @@ package com.tngtech.jgiven.resolution;
 
 import com.intellij.psi.PsiField;
 
+import java.util.Objects;
+
 public class ResolutionHandler {
 
     private ResolutionProvider resolutionProvider = new ResolutionProvider();
@@ -15,9 +17,10 @@ public class ResolutionHandler {
         if (resolution != Resolution.NAME) {
             return field.getType().getPresentableText().equalsIgnoreCase(fieldToSearch.getType().getPresentableText());
         }
-        String fieldNameToSearch = fieldToSearch.getNameIdentifier().getText();
-        String fieldName = field.getNameIdentifier().getText();
 
-        return fieldName.equalsIgnoreCase(fieldNameToSearch);
+        return Objects.equals(
+                field.getName(),
+                fieldToSearch.getName()
+        );
     }
 }

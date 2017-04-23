@@ -1,10 +1,11 @@
 package a;
 
 import com.tngtech.jgiven.annotation.ScenarioState;
+import a.StateA;
 
 class ForClassTypeReference {
     @ScenarioState
-    private a.StateA state;
+    private StateA state;
 
     @ScenarioState
     private String myOtherString;

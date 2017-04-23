@@ -7,10 +7,10 @@ import com.intellij.psi.PsiNameValuePair;
 import javax.annotation.Nullable;
 import java.util.Arrays;
 
-public class AnnotationUtils {
+public class AnnotationValueProvider {
 
     @Nullable
-    public static PsiExpression getAnnotationValue(PsiAnnotation annotation, String annotationKey) {
+    PsiExpression getAnnotationValue(PsiAnnotation annotation, String annotationKey) {
         PsiNameValuePair[] attributes = annotation.getParameterList().getAttributes();
         return Arrays.stream(attributes)
                 .filter(a -> annotationKey.equalsIgnoreCase(a.getName()))
