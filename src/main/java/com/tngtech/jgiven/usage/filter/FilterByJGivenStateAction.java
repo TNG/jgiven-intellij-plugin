@@ -23,7 +23,6 @@ class FilterByJGivenStateAction extends ToggleAction {
         super("JGiven", "Filter by JGiven Scenario State", Icons.JGIVEN);
         this.scenarioStateAnnotationProvider = scenarioStateAnnotationProvider;
         this.usageView = usageView;
-
     }
 
     @Override
