@@ -5,7 +5,7 @@
 
     <description>JGiven</description>
 
-    <vendor email="matthias.klass@tngtech.com">Matthias Klaß</vendor>
+    <vendor email="matthias.klass@tngtech.com">TNG Technology Consulting GmbH</vendor>
 
     <!-- Intellij 12+ -->
     <idea-version since-build="123"/>
