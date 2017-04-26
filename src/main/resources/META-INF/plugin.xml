@@ -18,5 +18,6 @@
         <useScopeEnlarger implementation="com.tngtech.jgiven.JGivenUseScopeEnlarger"/>
         <usageFilteringRuleProvider
                 implementation="com.tngtech.jgiven.usage.filter.ScenarioStateFilteringRuleProvider"/>
+        <applicationService serviceImplementation="com.tngtech.jgiven.usage.filter.JGivenSettings"/>
     </extensions>
 </idea-plugin>

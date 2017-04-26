@@ -14,7 +14,7 @@ import java.util.Set;
 import java.util.stream.Collectors;
 
 class FilterByJGivenStateAction extends ToggleAction {
-    private boolean state = false;
+    private boolean state = true;
     private ScenarioStateAnnotationProvider scenarioStateAnnotationProvider;
     private UsageView usageView;
     private Set<Usage> excludedUsages = new HashSet<>();
@@ -27,12 +27,12 @@ class FilterByJGivenStateAction extends ToggleAction {
 
     @Override
     public boolean isSelected(AnActionEvent e) {
-        return state;
+        return JGivenSettings.getInstance().isJGivenFilteringEnabled();
     }
 
     @Override
     public void setSelected(AnActionEvent e, boolean state) {
-        this.state = state;
+        JGivenSettings.getInstance().setJGivenFilteringEnabled(state);
         if (e.getProject() == null) {
             return;
         }
@@ -42,14 +42,14 @@ class FilterByJGivenStateAction extends ToggleAction {
                 .collect(Collectors.toSet());
 
         if (state) {
-            excludedUsages = usageView.getUsages().stream()
-                    .filter(u -> !scenarioStateUsages.contains(u))
-                    .collect(Collectors.toSet());
-            excludedUsages.forEach(usageView::removeUsage);
-        } else {
             excludedUsages.stream()
                     .filter(u -> !scenarioStateUsages.contains(u))
                     .forEach(usageView::appendUsage);
+        } else {
+            excludedUsages = usageView.getUsages().stream()
+                    .filter(scenarioStateUsages::contains)
+                    .collect(Collectors.toSet());
+            excludedUsages.forEach(usageView::removeUsage);
         }
         e.getProject().getMessageBus().syncPublisher(UsageFilteringRuleProvider.RULES_CHANGED).run();
     }
