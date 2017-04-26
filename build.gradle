@@ -8,6 +8,12 @@ intellij {
     version '2017.1'
     updateSinceUntilBuild false
     pluginName 'jgiven-intellij-plugin'
+
+    publishPlugin {
+        username jetbrainsPublishUsername
+        password jetbrainsPublishPassword
+        channels jetbrainsPublishChannel
+    }
 }
 
 configurations {
