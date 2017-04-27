@@ -22,8 +22,6 @@ Checkout all source files and run ``./gradlew buildPlugin`` from within the chec
 
 The installable artifact can be found at ``build/distributions/jgiven-intellij-plugin.zip``.
 
-If you only need access to an installable artifact, you can download the latest build [here](https://jenkins.int.tngtech.com/job/jgiven-intellij-plugin/lastSuccessfulBuild/artifact/build/distributions/jgiven-intellij-plugin.zip).
-
 Installation
 ------------
 
