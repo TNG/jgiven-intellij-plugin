@@ -15,8 +15,9 @@ Features
  Within this list, all non scenario state usages can be filtered out by clicking the JGiven icon.<br/>
 ![Find Usages](README/findUsages.png)
 
-Building
+Building <img src="https://api.travis-ci.org/TNG/jgiven-intellij-plugin.svg?branch=master" alt="build status"/>
 --------
+
 
 Checkout all source files and run ``./gradlew buildPlugin`` from within the checkout directory.
 
