@@ -1,3 +1,6 @@
+[![Build Status](https://api.travis-ci.org/TNG/jgiven-intellij-plugin.svg?branch=master)](https://travis-ci.org/TNG/jgiven-intellij-plugin)
+[![License](https://img.shields.io/github/license/TNG/jgiven-intellij-plugin.svg )](https://raw.githubusercontent.com/TNG/jgiven-intellij-plugin/master/LICENSE)
+
 JGiven Plugin for IntelliJ IDEA
 ===============================
 
@@ -15,7 +18,7 @@ Features
  Within this list, all non scenario state usages can be filtered out by clicking the JGiven icon.<br/>
 ![Find Usages](README/findUsages.png)
 
-Building <img src="https://api.travis-ci.org/TNG/jgiven-intellij-plugin.svg?branch=master" alt="build status"/>
+Building
 --------
 
 
