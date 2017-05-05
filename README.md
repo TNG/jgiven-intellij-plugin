@@ -21,7 +21,6 @@ Features
 Building
 --------
 
-
 Checkout all source files and run ``./gradlew buildPlugin`` from within the checkout directory.
 
 The installable artifact can be found at ``build/distributions/jgiven-intellij-plugin.zip``.
@@ -29,8 +28,8 @@ The installable artifact can be found at ``build/distributions/jgiven-intellij-p
 Installation
 ------------
 
-The plugin is not yet available within the JetBrains plugin repository. Thus, after obtaining the jgiven-intellij-plugin.zip,
-you'll have to install the plugin manually by following the steps below.
+The plugin is available from within the [JetBrains plugin repository](https://plugins.jetbrains.com/plugin/9670-jgiven). Thus, either download the plugin directly
+from within the IDE ("Browse repositories") or build the plugin manually and install it from your local disk.
 
  * Open up the ``Settings`` dialog (``File > Settings`` or hit ``Ctrl+Alt+S``).
  * Select ``Plugins`` from the tree
