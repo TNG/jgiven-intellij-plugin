@@ -1,9 +1,9 @@
 <idea-plugin>
     <id>JGivenPlugin</id>
     <name>JGiven</name>
-    <version>0.0.3</version>
+    <version>0.0.4</version>
 
-    <description>JGiven</description>
+    <description>Provides support for navigation between JGiven scenario states.</description>
 
     <vendor email="matthias.klass@tngtech.com" url="http://www.tngtech.com">TNG Technology Consulting GmbH</vendor>
 
@@ -19,5 +19,6 @@
         <usageFilteringRuleProvider
                 implementation="com.tngtech.jgiven.usage.filter.ScenarioStateFilteringRuleProvider"/>
         <applicationService serviceImplementation="com.tngtech.jgiven.usage.filter.JGivenSettings"/>
+        <implicitUsageProvider implementation="com.tngtech.jgiven.usage.implicit.ImplicitScenarioStateUsageProvider"/>
     </extensions>
 </idea-plugin>
