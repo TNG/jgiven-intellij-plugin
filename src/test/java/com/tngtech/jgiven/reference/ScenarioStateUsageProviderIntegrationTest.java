@@ -15,7 +15,7 @@ import static org.assertj.core.api.Assertions.assertThat;
 
 @SuppressWarnings("ConstantConditions")
 public class ScenarioStateUsageProviderIntegrationTest extends BaseTestCase {
-    public void test_find_Usages_for_type() throws Exception {
+    public void test_find_Usages_for_type() {
         libraryTestUtil.addJGiven();
         configureByFile("ForClass.java");
 
@@ -24,7 +24,7 @@ public class ScenarioStateUsageProviderIntegrationTest extends BaseTestCase {
         assertThat(getOnlyUsageFilename(usages)).contains("SomeOtherReference.java");
     }
 
-    public void test_find_Usages_for_name() throws Exception {
+    public void test_find_Usages_for_name() {
         libraryTestUtil.addJGiven();
         configureByFile("ForName.java");
 
@@ -33,7 +33,7 @@ public class ScenarioStateUsageProviderIntegrationTest extends BaseTestCase {
         assertThat(getOnlyUsageFilename(usages)).contains("SomeReference.java");
     }
 
-    public void test_find_Usages_for_java_lang_reference_resolves_by_name_and_not_by_type() throws Exception {
+    public void test_find_Usages_for_java_lang_reference_resolves_by_name_and_not_by_type() {
         libraryTestUtil.addJGiven();
         configureByFile("ForJavaLang.java");
 
@@ -42,7 +42,7 @@ public class ScenarioStateUsageProviderIntegrationTest extends BaseTestCase {
         assertThat(getOnlyUsageFilename(usages)).contains("SomeReference.java");
     }
 
-    public void test_find_no_usages_if_JGiven_is_not_present() throws Exception {
+    public void test_find_no_usages_if_JGiven_is_not_present() {
         libraryTestUtil.addJGiven();
         myFixture.configureByFile("NoJGiven.java");
 

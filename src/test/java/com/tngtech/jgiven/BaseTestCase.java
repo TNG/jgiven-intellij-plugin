@@ -14,8 +14,13 @@ public abstract class BaseTestCase extends LightCodeInsightFixtureTestCase {
     @Override
     public void setUp() throws Exception {
         super.setUp();
-        libraryTestUtil = new LibraryTestUtil(myModule)
-                .addJGiven();
+        libraryTestUtil = new LibraryTestUtil(myModule).addJGiven();
+    }
+
+    @Override
+    public void tearDown() throws Exception {
+        libraryTestUtil.removeLibraries();
+        super.tearDown();
     }
 
     @Override
@@ -29,7 +34,6 @@ public abstract class BaseTestCase extends LightCodeInsightFixtureTestCase {
     @Override
     protected LightProjectDescriptor getProjectDescriptor() {
         return new LightProjectDescriptor() {
-            @Nullable
             @Override
             public Sdk getSdk() {
                 return JavaAwareProjectJdkTableImpl.getInstanceEx().getInternalJdk();
