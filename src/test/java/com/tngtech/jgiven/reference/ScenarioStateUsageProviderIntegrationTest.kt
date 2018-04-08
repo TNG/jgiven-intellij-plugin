@@ -15,7 +15,6 @@ class ScenarioStateUsageProviderIntegrationTest : BaseTestCase() {
                 .toSet()
 
     fun test_find_Usages_for_type() {
-        libraryTestUtil.addJGiven()
         configureByFile("ForClass.java")
 
         val usages = findUsages()
@@ -24,7 +23,6 @@ class ScenarioStateUsageProviderIntegrationTest : BaseTestCase() {
     }
 
     fun test_find_Usages_for_name() {
-        libraryTestUtil.addJGiven()
         configureByFile("ForName.java")
 
         val usages = findUsages()
@@ -33,7 +31,6 @@ class ScenarioStateUsageProviderIntegrationTest : BaseTestCase() {
     }
 
     fun test_find_Usages_for_java_lang_reference_resolves_by_name_and_not_by_type() {
-        libraryTestUtil.addJGiven()
         configureByFile("ForJavaLang.java")
 
         val usages = findUsages()
@@ -42,7 +39,6 @@ class ScenarioStateUsageProviderIntegrationTest : BaseTestCase() {
     }
 
     fun test_find_no_usages_if_JGiven_is_not_present() {
-        libraryTestUtil.addJGiven()
         myFixture.configureByFile("NoJGiven.java")
 
         val usages = findUsages()
