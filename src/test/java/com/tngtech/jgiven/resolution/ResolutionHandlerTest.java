@@ -2,9 +2,9 @@ package com.tngtech.jgiven.resolution;
 
 import com.intellij.psi.PsiField;
 import com.intellij.psi.PsiType;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
@@ -27,11 +27,15 @@ public class ResolutionHandlerTest {
     @Mock
     private PsiField field2;
 
-    @InjectMocks
     private ResolutionHandler resolutionHandler;
 
+    @Before
+    public void setUp() {
+        resolutionHandler = new ResolutionHandler(resolutionProvider);
+    }
+
     @Test
-    public void should_handle_equal_field_names() throws Exception {
+    public void should_handle_equal_field_names() {
         when(resolutionProvider.getResolutionFrom(field1)).thenReturn(NAME);
         when(resolutionProvider.getResolutionFrom(field2)).thenReturn(NAME);
         when(field1.getName()).thenReturn("field");
@@ -43,7 +47,7 @@ public class ResolutionHandlerTest {
     }
 
     @Test
-    public void should_handle_not_equal_field_names() throws Exception {
+    public void should_handle_not_equal_field_names() {
         when(resolutionProvider.getResolutionFrom(field1)).thenReturn(NAME);
         when(resolutionProvider.getResolutionFrom(field2)).thenReturn(NAME);
         when(field1.getName()).thenReturn("field1");
@@ -55,7 +59,7 @@ public class ResolutionHandlerTest {
     }
 
     @Test
-    public void should_handle_equal_types() throws Exception {
+    public void should_handle_equal_types() {
         when(resolutionProvider.getResolutionFrom(field1)).thenReturn(TYPE);
         when(resolutionProvider.getResolutionFrom(field2)).thenReturn(TYPE);
         mockPresentableTextWith(field1, "type");
@@ -67,7 +71,7 @@ public class ResolutionHandlerTest {
     }
 
     @Test
-    public void should_handle_not_equal_types() throws Exception {
+    public void should_handle_not_equal_types() {
         when(resolutionProvider.getResolutionFrom(field1)).thenReturn(TYPE);
         when(resolutionProvider.getResolutionFrom(field2)).thenReturn(TYPE);
         mockPresentableTextWith(field1, "type1");
@@ -79,7 +83,7 @@ public class ResolutionHandlerTest {
     }
 
     @Test
-    public void should_handle_different_resolution() throws Exception {
+    public void should_handle_different_resolution() {
         when(resolutionProvider.getResolutionFrom(field1)).thenReturn(NAME);
         when(resolutionProvider.getResolutionFrom(field2)).thenReturn(TYPE);
 

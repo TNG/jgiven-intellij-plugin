@@ -3,9 +3,9 @@ package com.tngtech.jgiven.reference;
 import com.intellij.psi.PsiField;
 import com.intellij.usages.impl.rules.UsageType;
 import com.tngtech.jgiven.scenario.state.ScenarioStateAnnotationProvider;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
@@ -19,11 +19,16 @@ public class JGivenUsageTypeProviderTest {
     public MockitoRule mockitoRule = MockitoJUnit.rule();
     @Mock
     private ScenarioStateAnnotationProvider scenarioStateAnnotationProvider;
-    @InjectMocks
+
     private JGivenUsageTypeProvider usageTypeProvider;
 
+    @Before
+    public void setUp() {
+        usageTypeProvider = new JGivenUsageTypeProvider(scenarioStateAnnotationProvider);
+    }
+
     @Test
-    public void provides_JGiven_Usage_type_if_field_is_scenario_state() throws Exception {
+    public void provides_JGiven_Usage_type_if_field_is_scenario_state() {
         PsiField field = mock(PsiField.class);
         when(scenarioStateAnnotationProvider.isJGivenScenarioState(field)).thenReturn(true);
 
@@ -34,7 +39,7 @@ public class JGivenUsageTypeProviderTest {
     }
 
     @Test
-    public void provides_no_Usage_type_if_field_is_not_scenario_state() throws Exception {
+    public void provides_no_Usage_type_if_field_is_not_scenario_state() {
         PsiField field = mock(PsiField.class);
         when(scenarioStateAnnotationProvider.isJGivenScenarioState(field)).thenReturn(false);
 

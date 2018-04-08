@@ -20,7 +20,7 @@ class FilterByJGivenStateAction extends ToggleAction {
     private Set<Usage> excludedUsages = new HashSet<>();
 
     FilterByJGivenStateAction(ScenarioStateAnnotationProvider scenarioStateAnnotationProvider, UsageView usageView) {
-        super("JGiven", "Filter by JGiven Scenario State", Icons.JGIVEN);
+        super("JGiven", "Filter by JGiven Scenario State", Icons.INSTANCE.getJGIVEN());
         this.scenarioStateAnnotationProvider = scenarioStateAnnotationProvider;
         this.usageView = usageView;
     }

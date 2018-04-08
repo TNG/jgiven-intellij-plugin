@@ -5,6 +5,7 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
 import com.tngtech.jgiven.Annotations;
 import com.tngtech.jgiven.util.AnnotationProvider;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
 import org.mockito.InjectMocks;
@@ -26,10 +27,15 @@ public class ScenarioStateAnnotationProviderTest {
     @InjectMocks
     private ScenarioStateAnnotationProvider scenarioStateAnnotationProvider;
 
+    @Before
+    public void setUp() {
+        scenarioStateAnnotationProvider = new ScenarioStateAnnotationProvider(annotationProvider);
+    }
+
     @Test
     public void determine_JGiven_ScenarioState() {
         PsiField field = mock(PsiField.class);
-        when(annotationProvider.findAnnotation(field, Annotations.JGIVEN_SCENARIO_STATE_CLASS_NAMES)).thenReturn(mock(PsiAnnotation.class));
+        when(annotationProvider.findAnnotation(field, Annotations.INSTANCE.getJGIVEN_SCENARIO_STATE_CLASS_NAMES())).thenReturn(mock(PsiAnnotation.class));
 
         boolean result = scenarioStateAnnotationProvider.isJGivenScenarioState(field);
 
@@ -48,7 +54,7 @@ public class ScenarioStateAnnotationProviderTest {
     @Test
     public void determine_JGiven_if_element_is_not_a_scenario_state() {
         PsiField field = mock(PsiField.class);
-        when(annotationProvider.findAnnotation(field, Annotations.JGIVEN_SCENARIO_STATE_CLASS_NAMES)).thenReturn(null);
+        when(annotationProvider.findAnnotation(field, Annotations.INSTANCE.getJGIVEN_SCENARIO_STATE_CLASS_NAMES())).thenReturn(null);
 
         boolean result = scenarioStateAnnotationProvider.isJGivenScenarioState(field);
 

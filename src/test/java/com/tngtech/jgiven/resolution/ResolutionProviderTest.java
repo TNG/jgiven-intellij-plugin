@@ -3,15 +3,15 @@ package com.tngtech.jgiven.resolution;
 import com.intellij.psi.PsiAnnotation;
 import com.intellij.psi.PsiExpression;
 import com.intellij.psi.PsiField;
+import com.intellij.psi.PsiType;
 import com.tngtech.jgiven.scenario.state.ScenarioStateAnnotationProvider;
+import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
 
-import static com.tngtech.jgiven.resolution.ResolutionProvider.FIELD_RESOLUTION;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -30,8 +30,13 @@ public class ResolutionProviderTest {
     @Mock
     private PsiField field;
 
-    @InjectMocks
     private ResolutionProvider resolutionProvider;
+
+    @Before
+    public void setUp() {
+        when(field.getType()).thenReturn(mock(PsiType.class));
+        resolutionProvider = new ResolutionProvider(scenarioStateProvider, annotationValueProvider, typeIsTooGenericCalculator);
+    }
 
     @Test
     public void handle_NAME_resolution() {
@@ -100,6 +105,6 @@ public class ResolutionProviderTest {
     private void mockAnnotationValueWith(PsiField field, PsiExpression valueExpression) {
         PsiAnnotation annotation = mock(PsiAnnotation.class);
         when(scenarioStateProvider.getJGivenAnnotationOn(field)).thenReturn(annotation);
-        when(annotationValueProvider.getAnnotationValue(annotation, FIELD_RESOLUTION)).thenReturn(valueExpression);
+        when(annotationValueProvider.getAnnotationValue(annotation, ResolutionProvider.FIELD_RESOLUTION)).thenReturn(valueExpression);
     }
 }

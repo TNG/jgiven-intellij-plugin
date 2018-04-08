@@ -14,7 +14,6 @@ import com.tngtech.jgiven.scenario.state.ScenarioStateReferenceProvider;
 import org.junit.Before;
 import org.junit.Rule;
 import org.junit.Test;
-import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.MockitoJUnit;
 import org.mockito.junit.MockitoRule;
@@ -28,22 +27,24 @@ public class ReferenceProviderTest {
     @Rule
     public MockitoRule mockitoRule = MockitoJUnit.rule();
     @Mock
-    private ScenarioStateAnnotationProvider scenarioStateProvider;
+    private ScenarioStateAnnotationProvider scenarioStateProvider = mock(ScenarioStateAnnotationProvider.class);
     @Mock
-    private ScenarioStateReferenceProvider scenarioStateReferenceProvider;
+    private ScenarioStateReferenceProvider scenarioStateReferenceProvider = mock(ScenarioStateReferenceProvider.class);
     @Mock
     private Processor<PsiReference> processor;
-    @InjectMocks
+
     private ReferenceProvider referenceProvider;
 
     @Before
-    public void setUp() throws Exception {
+    public void setUp() {
         Disposable disposable = mock(Disposable.class);
         ApplicationManager.setApplication(new MockApplication(disposable), disposable);
+
+        referenceProvider = new ReferenceProvider(scenarioStateProvider, scenarioStateReferenceProvider);
     }
 
     @Test
-    public void should_process_reference() throws Exception {
+    public void should_process_reference() {
         // given
         PsiReference reference1 = mock(PsiReference.class);
         PsiReference reference2 = mock(PsiReference.class);
@@ -52,7 +53,7 @@ public class ReferenceProviderTest {
         ReferencesSearch.SearchParameters searchParameters = mock(ReferencesSearch.SearchParameters.class);
         when(searchParameters.getElementToSearch()).thenReturn(field);
         when(searchParameters.getEffectiveSearchScope()).thenReturn(mock(GlobalSearchScope.class));
-        when(scenarioStateReferenceProvider.findReferences(field)).thenReturn(Arrays.asList(reference1, reference2));
+        when(scenarioStateReferenceProvider.findReferences(eq(field), anyInt())).thenReturn(Arrays.asList(reference1, reference2));
         when(scenarioStateProvider.isJGivenScenarioState(field)).thenReturn(true);
 
         // when
@@ -64,7 +65,7 @@ public class ReferenceProviderTest {
     }
 
     @Test
-    public void should_not_process_reference_if_search_scope_is_not_global() throws Exception {
+    public void should_not_process_reference_if_search_scope_is_not_global() {
         // given
         PsiField field = mock(PsiField.class);
         ReferencesSearch.SearchParameters searchParameters = mock(ReferencesSearch.SearchParameters.class);
@@ -80,7 +81,7 @@ public class ReferenceProviderTest {
     }
 
     @Test
-    public void should_not_process_reference_if_element_is_not_a_JGiven_scenario_state() throws Exception {
+    public void should_not_process_reference_if_element_is_not_a_JGiven_scenario_state() {
         // given
         PsiField field = mock(PsiField.class);
         ReferencesSearch.SearchParameters searchParameters = mock(ReferencesSearch.SearchParameters.class);

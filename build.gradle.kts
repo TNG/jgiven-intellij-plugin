@@ -1,5 +1,6 @@
 import org.jetbrains.intellij.tasks.PatchPluginXmlTask
 import org.jetbrains.intellij.tasks.PublishTask
+import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 
 val jetbrainsPublishUsername by project
 val jetbrainsPublishPassword by project
@@ -7,7 +8,9 @@ val jetbrainsPublishChannel by project
 
 plugins {
     id("org.jetbrains.intellij") version "0.3.1"
+    kotlin("jvm") version "1.2.0"
 }
+val kotlinVersion = plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPluginVersion
 
 configure<JavaPluginConvention> {
     sourceCompatibility = JavaVersion.VERSION_1_8
@@ -33,6 +36,8 @@ publishPlugin {
 }
 
 dependencies {
+    compile(kotlin("stdlib", kotlinVersion))
+
     testCompile("com.tngtech.jgiven:jgiven-junit:0.15.3")
     testCompile("com.tngtech.junit.dataprovider:junit4-dataprovider:2.3")
     testCompile("org.assertj:assertj-core:3.9.1")
