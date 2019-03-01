@@ -10,11 +10,11 @@ class JGivenUsageTypeProvider(
 ) : UsageTypeProvider {
     override fun getUsageType(element: PsiElement) =
             when {
-                scenarioStateAnnotationProvider.isJGivenScenarioState(element) -> UsageType(USAGE_TYPE)
+                scenarioStateAnnotationProvider.isJGivenScenarioState(element) -> USAGE_TYPE
                 else -> null
             }
 
     companion object {
-        const val USAGE_TYPE = "JGiven Scenario State"
+        val USAGE_TYPE = UsageType("JGiven Scenario State")
     }
 }

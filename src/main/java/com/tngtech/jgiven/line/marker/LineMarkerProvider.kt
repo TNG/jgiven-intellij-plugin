@@ -28,7 +28,7 @@ class LineMarkerProvider : com.intellij.codeInsight.daemon.LineMarkerProvider {
         val references = allReferencingFields(field.orElseThrow<IllegalArgumentException> { IllegalArgumentException() })
         return when {
             references.isEmpty() -> null
-            else -> JGivenLineMarkerInfo(element, Icons.JGIVEN, MarkerType("jgiven", { e -> "JGiven States" }, navigatorToElements()), "JGiven States")
+            else -> JGivenLineMarkerInfo(element, Icons.JGIVEN, MarkerType("jgiven", { _ -> "JGiven States" }, navigatorToElements()), "JGiven States")
         }
 
     }

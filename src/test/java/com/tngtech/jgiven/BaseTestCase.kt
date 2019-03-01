@@ -4,6 +4,7 @@ import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.projectRoots.impl.JavaAwareProjectJdkTableImpl
 import com.intellij.testFramework.LightProjectDescriptor
 import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
+import com.intellij.util.indexing.FileBasedIndex
 
 abstract class BaseTestCase : LightCodeInsightFixtureTestCase() {
 

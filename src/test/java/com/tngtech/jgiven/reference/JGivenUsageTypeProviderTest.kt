@@ -35,7 +35,7 @@ class JGivenUsageTypeProviderTest {
         val type = usageTypeProvider.getUsageType(field)
 
         assertThat(type).isNotNull
-        assertThat(type!!.toString()).isEqualTo(JGivenUsageTypeProvider.USAGE_TYPE)
+        assertThat(type).isEqualTo(JGivenUsageTypeProvider.USAGE_TYPE)
     }
 
     @Test

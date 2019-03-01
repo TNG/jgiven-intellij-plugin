@@ -15,7 +15,7 @@ class ReferenceProvider(
         private val scenarioStateReferenceProvider: ScenarioStateReferenceProvider = ScenarioStateReferenceProvider()
 ) : QueryExecutorBase<PsiReference, ReferencesSearch.SearchParameters>() {
 
-    override fun processQuery(queryParameters: ReferencesSearch.SearchParameters, consumer: Processor<PsiReference>) {
+    override fun processQuery(queryParameters: ReferencesSearch.SearchParameters, consumer: Processor<in PsiReference>) {
         val element = queryParameters.elementToSearch
 
         ApplicationManager.getApplication().runReadAction {
