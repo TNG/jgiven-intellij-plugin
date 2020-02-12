@@ -3,7 +3,7 @@ import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val jetbrainsPublishUsername: String by project
-val jetbrainsPublishPassword: String by project
+val jetbrainsPublishToken: String by project
 val jetbrainsPublishChannel: String by project
 
 plugins {
@@ -39,8 +39,7 @@ val publishPlugin: PublishTask by tasks
 
 publishPlugin {
     username(jetbrainsPublishUsername)
-    password(jetbrainsPublishPassword)
-    channels(jetbrainsPublishChannel)
+    token(jetbrainsPublishToken)
 }
 
 dependencies {

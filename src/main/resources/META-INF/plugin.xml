@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>JGivenPlugin</id>
     <name>JGiven</name>
-    <version>0.0.4</version>
+    <version>0.0.6</version>
 
     <description>Provides support for navigation between JGiven scenario states.</description>
 
