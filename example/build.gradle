@@ -1,0 +1,10 @@
+apply plugin: 'java'
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testImplementation 'com.tngtech.jgiven:jgiven-junit:0.18.2'
+    testImplementation 'junit:junit:4.13'
+}

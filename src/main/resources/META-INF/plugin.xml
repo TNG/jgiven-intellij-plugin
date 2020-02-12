@@ -10,6 +10,8 @@
     <!-- Intellij 12+ -->
     <idea-version since-build="123"/>
 
+    <depends>com.intellij.modules.java</depends>
+
     <extensions defaultExtensionNs="com.intellij">
         <referencesSearch implementation="com.tngtech.jgiven.reference.ReferenceProvider"/>
         <codeInsight.lineMarkerProvider language="JAVA"

@@ -7,8 +7,8 @@ val jetbrainsPublishPassword: String by project
 val jetbrainsPublishChannel: String by project
 
 plugins {
-    id("org.jetbrains.intellij") version "0.4.4"
-    kotlin("jvm") version "1.3.21"
+    id("org.jetbrains.intellij") version "0.4.16"
+    kotlin("jvm") version "1.3.61"
 }
 val kotlinVersion = plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPluginVersion
 
@@ -29,8 +29,10 @@ repositories {
 }
 
 intellij {
-    version = "IC-2018.3"
+    version = "IC-2019.3"
     pluginName = "jgiven-intellij-plugin"
+
+    setPlugins("java")
 }
 
 val publishPlugin: PublishTask by tasks
@@ -42,12 +44,13 @@ publishPlugin {
 }
 
 dependencies {
-    compile(kotlin("stdlib", kotlinVersion))
+    implementation(kotlin("stdlib", kotlinVersion))
 
-    testCompile("com.tngtech.jgiven:jgiven-junit:0.15.3")
-    testCompile("com.tngtech.junit.dataprovider:junit4-dataprovider:2.3")
-    testCompile("org.assertj:assertj-core:3.9.1")
-    testCompile("org.mockito:mockito-core:2.24.5")
+    testImplementation(kotlin("stdlib-jdk7", kotlinVersion))
+    testImplementation("com.tngtech.jgiven:jgiven-junit:0.18.2")
+    testImplementation("com.tngtech.junit.dataprovider:junit4-dataprovider:2.6")
+    testImplementation("org.assertj:assertj-core:3.15.0")
+    testImplementation("org.mockito:mockito-core:3.2.4")
 }
 
 inline operator fun <T : Task> T.invoke(a: T.() -> Unit): T = apply(a)

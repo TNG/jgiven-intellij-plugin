@@ -3,19 +3,18 @@ package com.tngtech.jgiven
 import com.intellij.openapi.projectRoots.Sdk
 import com.intellij.openapi.projectRoots.impl.JavaAwareProjectJdkTableImpl
 import com.intellij.testFramework.LightProjectDescriptor
-import com.intellij.testFramework.fixtures.LightCodeInsightFixtureTestCase
-import com.intellij.util.indexing.FileBasedIndex
+import com.intellij.testFramework.fixtures.LightJavaCodeInsightFixtureTestCase
 
-abstract class BaseTestCase : LightCodeInsightFixtureTestCase() {
+abstract class BaseTestCase : LightJavaCodeInsightFixtureTestCase() {
 
-    protected lateinit var libraryTestUtil: LibraryTestUtil
+    private lateinit var libraryTestUtil: LibraryTestUtil
 
     protected abstract val testDataSubDirectory: String
 
     @Throws(Exception::class)
     public override fun setUp() {
         super.setUp()
-        libraryTestUtil = LibraryTestUtil(myModule).addJGiven()
+        libraryTestUtil = LibraryTestUtil(module).addJGiven()
     }
 
     @Throws(Exception::class)
