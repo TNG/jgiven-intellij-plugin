@@ -2,9 +2,8 @@ import org.jetbrains.intellij.tasks.PublishTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
-val jetbrainsPublishUsername: String by project
-val jetbrainsPublishToken: String by project
-val jetbrainsPublishChannel: String by project
+val jetbrainsPublishUsername: String? by project
+val jetbrainsPublishToken: String? by project
 
 plugins {
     id("org.jetbrains.intellij") version "0.4.16"
@@ -37,9 +36,11 @@ intellij {
 
 val publishPlugin: PublishTask by tasks
 
-publishPlugin {
-    username(jetbrainsPublishUsername)
-    token(jetbrainsPublishToken)
+if (jetbrainsPublishToken != null && jetbrainsPublishUsername != null) {
+    publishPlugin {
+        username(jetbrainsPublishUsername)
+        token(jetbrainsPublishToken)
+    }
 }
 
 dependencies {
