@@ -1,4 +1,4 @@
-[![Build Status](https://api.travis-ci.org/TNG/jgiven-intellij-plugin.svg?branch=master)](https://travis-ci.org/TNG/jgiven-intellij-plugin)
+![Build Status](https://github.com/TNG/jgiven-intellij-plugin/workflows/Build/badge.svg)
 [![License](https://img.shields.io/github/license/TNG/jgiven-intellij-plugin.svg )](https://raw.githubusercontent.com/TNG/jgiven-intellij-plugin/master/LICENSE)
 
 JGiven Plugin for IntelliJ IDEA
