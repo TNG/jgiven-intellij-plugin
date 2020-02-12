@@ -15,3 +15,8 @@ jobs:
         java-version: 1.8
     - name: Build with Gradle
       run: ./gradlew buildPlugin test
+    - name: Archive plugin
+      uses: actions/upload-artifact@v1
+      with:
+       name: jgiven-intellij-plugin.zip
+       path: build/distributions/jgiven-intellij-plugin.zip
