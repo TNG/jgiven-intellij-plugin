@@ -2,7 +2,7 @@
 
 Contributions are very welcome. The following will provide some helpful guidelines.
 
-## JUnit dataprovider Contributor License Agreement
+## JGiven-Intellij-Plugin Contributor License Agreement
 # Contributing
 
 Contributions are very welcome. The following will provide some helpful guidelines.
