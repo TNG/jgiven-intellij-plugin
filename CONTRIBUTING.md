@@ -40,7 +40,7 @@ We love pull requests. Here is a quick guide:
 ```
 ---
 
-I hereby agree to the terms of the JUnit dataprovider Contributor License Agreement.
+I hereby agree to the terms of the JGiven-Intellij-Plugin Contributor License Agreement.
 ```
 9. Now you are waiting on us. We review your pull request and at least leave some comments.
 
