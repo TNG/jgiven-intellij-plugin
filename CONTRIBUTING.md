@@ -46,4 +46,5 @@ I hereby agree to the terms of the JGiven-Intellij-Plugin Contributor License Ag
 
 *Note:* If you are thinking of providing a fix for one of the bugs or feature requests, it is usually
 a good idea to add a comment to the bug to make sure that there is agreement on how we should proceed.
-* Whatever content you contribute will be provided under the project license(s) (see [LICENSE](LICENSE))
+
+Whatever content you contribute will be provided under the project license(s) (see [LICENSE](LICENSE))
