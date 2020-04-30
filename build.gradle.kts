@@ -6,8 +6,8 @@ val jetbrainsPublishUsername: String? by project
 val jetbrainsPublishToken: String? by project
 
 plugins {
-    id("org.jetbrains.intellij") version "0.4.16"
-    kotlin("jvm") version "1.3.61"
+    id("org.jetbrains.intellij") version "0.4.18"
+    kotlin("jvm") version "1.3.72"
 }
 val kotlinVersion = plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPluginVersion
 
@@ -28,7 +28,7 @@ repositories {
 }
 
 intellij {
-    version = "IC-2019.3"
+    version = "IC-2020.1"
     pluginName = "jgiven-intellij-plugin"
 
     setPlugins("java")

@@ -75,7 +75,7 @@ class ReferenceProviderTest {
         referenceProvider.processQuery(searchParameters, processor)
 
         // then
-        verifyZeroInteractions(processor)
+        verifyNoInteractions(processor)
     }
 
     @Test
@@ -91,6 +91,6 @@ class ReferenceProviderTest {
         referenceProvider.processQuery(searchParameters, processor)
 
         // then
-        verifyZeroInteractions(processor)
+        verifyNoInteractions(processor)
     }
 }

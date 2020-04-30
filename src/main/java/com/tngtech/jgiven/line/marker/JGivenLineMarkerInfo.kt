@@ -10,7 +10,7 @@ import javax.swing.Icon
 
 @Suppress("UNCHECKED_CAST")
 class JGivenLineMarkerInfo(element: PsiElement, icon: Icon, markerType: MarkerType, private val text: String) : MergeableLineMarkerInfo<PsiElement>(
-        element, element.textRange, icon, Pass.UPDATE_ALL, markerType.tooltip, markerType.navigationHandler, GutterIconRenderer.Alignment.LEFT
+        element, element.textRange, icon, markerType.tooltip, markerType.navigationHandler, GutterIconRenderer.Alignment.LEFT
 ) {
 
     override fun canMergeWith(info: MergeableLineMarkerInfo<*>): Boolean {

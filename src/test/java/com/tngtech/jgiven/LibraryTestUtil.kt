@@ -30,7 +30,7 @@ class LibraryTestUtil constructor(private val myModule: Module) {
     private fun addLibraryAt(path: String) {
         val parts = path.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
         val file = File(path)
-        VfsRootAccess.allowRootAccess(parts[0])
+        VfsRootAccess.allowRootAccess(myModule, parts[0])
         val fileName = file.name
         ModuleRootModificationUtil.updateModel(myModule) { model -> references.add(Ref.create(PsiTestUtil.addLibrary(model, fileName, file.parent, fileName))) }
     }

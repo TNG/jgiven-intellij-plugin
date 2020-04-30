@@ -27,11 +27,5 @@ abstract class BaseTestCase : LightJavaCodeInsightFixtureTestCase() {
         return BaseTestCase::class.java.getResource("/testData/$testDataSubDirectory").path
     }
 
-    override fun getProjectDescriptor(): LightProjectDescriptor {
-        return object : LightProjectDescriptor() {
-            override fun getSdk(): Sdk? {
-                return JavaAwareProjectJdkTableImpl.getInstanceEx().internalJdk
-            }
-        }
-    }
+    override fun getProjectDescriptor() = LightProjectDescriptor()
 }
