@@ -1,56 +1,43 @@
-package com.tngtech.jgiven.usage.filter;
+package com.tngtech.jgiven.usage.filter
 
-import com.intellij.openapi.actionSystem.AnActionEvent;
-import com.intellij.openapi.actionSystem.ToggleAction;
-import com.intellij.usages.ReadWriteAccessUsageInfo2UsageAdapter;
-import com.intellij.usages.Usage;
-import com.intellij.usages.UsageView;
-import com.intellij.usages.rules.UsageFilteringRuleProvider;
-import com.tngtech.jgiven.Icons;
-import com.tngtech.jgiven.scenario.state.ScenarioStateAnnotationProvider;
-import org.jetbrains.annotations.NotNull;
+import com.intellij.openapi.actionSystem.AnActionEvent
+import com.intellij.openapi.actionSystem.ToggleAction
+import com.intellij.usages.ReadWriteAccessUsageInfo2UsageAdapter
+import com.intellij.usages.Usage
+import com.intellij.usages.UsageView
+import com.intellij.usages.rules.UsageFilteringRuleProvider
+import com.tngtech.jgiven.Icons.JGIVEN
+import com.tngtech.jgiven.scenario.state.ScenarioStateAnnotationProvider
+import java.util.*
+import java.util.function.Consumer
+import java.util.stream.Collectors
 
-import java.util.HashSet;
-import java.util.Set;
-import java.util.stream.Collectors;
-
-class FilterByJGivenStateAction extends ToggleAction {
-    private final ScenarioStateAnnotationProvider scenarioStateAnnotationProvider;
-    private final UsageView usageView;
-    private Set<Usage> excludedUsages = new HashSet<>();
-
-    FilterByJGivenStateAction(ScenarioStateAnnotationProvider scenarioStateAnnotationProvider, UsageView usageView) {
-        super("JGiven", "Filter by JGiven Scenario State", Icons.INSTANCE.getJGIVEN());
-        this.scenarioStateAnnotationProvider = scenarioStateAnnotationProvider;
-        this.usageView = usageView;
+internal class FilterByJGivenStateAction(private val scenarioStateAnnotationProvider: ScenarioStateAnnotationProvider, private val usageView: UsageView) : ToggleAction("JGiven", "Filter by JGiven Scenario State", JGIVEN) {
+    private var excludedUsages: Set<Usage> = HashSet()
+    override fun isSelected(e: AnActionEvent): Boolean {
+        return JGivenSettings.instance.isJGivenFilteringEnabled
     }
 
-    @Override
-    public boolean isSelected(@NotNull AnActionEvent e) {
-        return JGivenSettings.getInstance().isJGivenFilteringEnabled();
-    }
-
-    @Override
-    public void setSelected(AnActionEvent e, boolean state) {
-        JGivenSettings.getInstance().setJGivenFilteringEnabled(state);
-        if (e.getProject() == null) {
-            return;
-        }
-        Set<Usage> scenarioStateUsages = usageView.getUsages().stream()
-                .filter(u -> u instanceof ReadWriteAccessUsageInfo2UsageAdapter &&
-                        scenarioStateAnnotationProvider.isJGivenScenarioState(((ReadWriteAccessUsageInfo2UsageAdapter) u).getElement()))
-                .collect(Collectors.toSet());
-
+    override fun setSelected(event: AnActionEvent, state: Boolean) {
+        JGivenSettings.instance.isJGivenFilteringEnabled = state
+        val project = event.project ?: return
+        val scenarioStateUsages = usageView.usages
+                .filter { usage: Usage? ->
+                    usage is ReadWriteAccessUsageInfo2UsageAdapter &&
+                            scenarioStateAnnotationProvider.isJGivenScenarioState(usage.element)
+                }
+                .toSet()
         if (state) {
             excludedUsages.stream()
-                    .filter(u -> !scenarioStateUsages.contains(u))
-                    .forEach(usageView::appendUsage);
+                    .filter { u: Usage -> !scenarioStateUsages.contains(u) }
+                    .forEach { usage: Usage? -> usageView.appendUsage(usage!!) }
         } else {
-            excludedUsages = usageView.getUsages().stream()
-                    .filter(scenarioStateUsages::contains)
-                    .collect(Collectors.toSet());
-            excludedUsages.forEach(usageView::removeUsage);
+            excludedUsages = usageView.usages.stream()
+                    .filter { o: Usage -> scenarioStateUsages.contains(o) }
+                    .collect(Collectors.toSet())
+            excludedUsages.forEach(Consumer { usage: Usage? -> usageView.removeUsage(usage!!) })
         }
-        e.getProject().getMessageBus().syncPublisher(UsageFilteringRuleProvider.RULES_CHANGED).run();
+        project.messageBus.syncPublisher(UsageFilteringRuleProvider.RULES_CHANGED).run()
     }
+
 }

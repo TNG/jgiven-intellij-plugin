@@ -5,7 +5,6 @@ import com.intellij.psi.PsiAnnotation
 import com.intellij.psi.PsiModifierListOwner
 
 class AnnotationProvider {
-    fun findAnnotation(listOwner: PsiModifierListOwner?, annotationNames: Collection<String>): PsiAnnotation? {
-        return AnnotationUtil.findAnnotation(listOwner, annotationNames, false)
-    }
+    fun findAnnotation(listOwner: PsiModifierListOwner?, annotationNames: Collection<String>) =
+            AnnotationUtil.findAnnotation(listOwner, annotationNames, false)
 }

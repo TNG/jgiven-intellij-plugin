@@ -8,7 +8,6 @@ import com.tngtech.jgiven.util.AnnotationProvider
 
 class ScenarioStateAnnotationProvider(
         private val annotationProvider: AnnotationProvider = AnnotationProvider()
-
 ) {
 
     fun isJGivenScenarioState(psiElement: PsiElement) =
