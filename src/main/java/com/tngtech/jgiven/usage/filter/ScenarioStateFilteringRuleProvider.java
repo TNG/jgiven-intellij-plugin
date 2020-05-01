@@ -13,7 +13,7 @@ import org.jetbrains.annotations.NotNull;
 import static java.util.Arrays.stream;
 
 public class ScenarioStateFilteringRuleProvider implements UsageFilteringRuleProvider {
-    private ScenarioStateAnnotationProvider scenarioStateAnnotationProvider = new ScenarioStateAnnotationProvider();
+    private final ScenarioStateAnnotationProvider scenarioStateAnnotationProvider = new ScenarioStateAnnotationProvider();
 
     @NotNull
     @Override

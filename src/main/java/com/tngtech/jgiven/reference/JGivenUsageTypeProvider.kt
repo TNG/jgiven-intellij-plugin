@@ -15,6 +15,6 @@ class JGivenUsageTypeProvider(
             }
 
     companion object {
-        val USAGE_TYPE = UsageType("JGiven Scenario State")
+        val USAGE_TYPE = UsageType {"JGiven Scenario State"}
     }
 }

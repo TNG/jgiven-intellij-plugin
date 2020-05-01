@@ -1,6 +1,5 @@
 package com.tngtech.jgiven.line.marker
 
-import com.intellij.codeHighlighting.Pass
 import com.intellij.codeInsight.daemon.MergeableLineMarkerInfo
 import com.intellij.codeInsight.daemon.impl.MarkerType
 import com.intellij.openapi.editor.markup.GutterIconRenderer
@@ -8,7 +7,6 @@ import com.intellij.psi.PsiElement
 import com.intellij.util.Function
 import javax.swing.Icon
 
-@Suppress("UNCHECKED_CAST")
 class JGivenLineMarkerInfo(element: PsiElement, icon: Icon, markerType: MarkerType, private val text: String) : MergeableLineMarkerInfo<PsiElement>(
         element, element.textRange, icon, markerType.tooltip, markerType.navigationHandler, GutterIconRenderer.Alignment.LEFT
 ) {
@@ -24,6 +22,7 @@ class JGivenLineMarkerInfo(element: PsiElement, icon: Icon, markerType: MarkerTy
         return myIcon
     }
 
+    @Suppress("UNCHECKED_CAST")
     override fun getCommonTooltip(infos: List<MergeableLineMarkerInfo<*>>): Function<in PsiElement, String> {
         return { _: PsiElement -> text } as (Function<PsiElement, String>)
     }

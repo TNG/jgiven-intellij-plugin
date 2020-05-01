@@ -9,10 +9,9 @@ import com.intellij.ide.util.DefaultPsiElementCellRenderer
 import com.intellij.psi.PsiElement
 import com.intellij.psi.PsiField
 import com.intellij.psi.PsiIdentifier
-import com.intellij.psi.PsiReference
 import com.tngtech.jgiven.Icons
 import com.tngtech.jgiven.scenario.state.ScenarioStateReferenceProvider
-import com.tngtech.jgiven.util.PsiElementUtil
+import com.tngtech.jgiven.util.findParentOfTypeOn
 import java.awt.event.MouseEvent
 
 class LineMarkerProvider : com.intellij.codeInsight.daemon.LineMarkerProvider {
@@ -21,24 +20,23 @@ class LineMarkerProvider : com.intellij.codeInsight.daemon.LineMarkerProvider {
     override fun getLineMarkerInfo(element: PsiElement) = collectMarkerFor(element)
 
     private fun collectMarkerFor(element: PsiElement): JGivenLineMarkerInfo? {
-        val field = PsiElementUtil.findParentOfTypeOn(element, PsiField::class.java)
+        val field = findParentOfTypeOn<PsiField>(element) ?: return null
         if (element !is PsiIdentifier || element.getParent() !is PsiField) {
             return null
         }
-        val references = allReferencingFields(field.orElseThrow<IllegalArgumentException> { IllegalArgumentException() })
+        val references = allReferencingFields(field)
         return when {
             references.isEmpty() -> null
-            else -> JGivenLineMarkerInfo(element, Icons.JGIVEN, MarkerType("jgiven", { _ -> "JGiven States" }, navigatorToElements()), "JGiven States")
+            else -> JGivenLineMarkerInfo(element, Icons.JGIVEN, MarkerType("jgiven", { "JGiven States" }, navigatorToElements()), "JGiven States")
         }
-
     }
 
     private fun navigatorToElements(): LineMarkerNavigator {
         return object : LineMarkerNavigator() {
 
             override fun browse(e: MouseEvent, element: PsiElement) {
-                val field = PsiElementUtil.findParentOfTypeOn(element, PsiField::class.java)
-                val references = allReferencingFields(field.orElseThrow<IllegalArgumentException> { IllegalArgumentException() })
+                val field = findParentOfTypeOn<PsiField>(element) ?: return
+                val references = allReferencingFields(field)
                 PsiElementListNavigator.openTargets(e, Iterables.toArray(references, PsiField::class.java),
                         "JGiven States", "", DefaultPsiElementCellRenderer())
             }
@@ -49,11 +47,7 @@ class LineMarkerProvider : com.intellij.codeInsight.daemon.LineMarkerProvider {
 
     private fun allReferencingFields(element: PsiField) =
             scenarioStateReferenceProvider.findReferences(element, 20)
-                    .map { this.fieldOf(it) }
-                    .filter { it != null }
-                    .map { it!! }
+                    .mapNotNull { findParentOfTypeOn<PsiField>(it.element) }
                     .toList()
 
-    private fun fieldOf(r: PsiReference) =
-            PsiElementUtil.findParentOfTypeOn(r.element, PsiField::class.java).orElse(null)
 }

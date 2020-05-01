@@ -8,7 +8,7 @@
     <vendor email="matthias.klass@tngtech.com" url="http://www.tngtech.com">TNG Technology Consulting GmbH</vendor>
 
     <!-- Intellij 12+ -->
-    <idea-version since-build="123"/>
+    <idea-version since-build="163.6110.112"/>
 
     <depends>com.intellij.modules.java</depends>
 

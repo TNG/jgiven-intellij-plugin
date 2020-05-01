@@ -5,24 +5,25 @@ import com.intellij.psi.PsiElement;
 import com.intellij.psi.PsiField;
 import com.tngtech.jgiven.scenario.state.ScenarioStateAnnotationProvider;
 import com.tngtech.jgiven.scenario.state.ScenarioStateReferenceProvider;
+import org.jetbrains.annotations.NotNull;
 
 public class ImplicitScenarioStateUsageProvider implements ImplicitUsageProvider {
-    private ScenarioStateAnnotationProvider scenarioStateAnnotationProvider = new ScenarioStateAnnotationProvider();
-    private ScenarioStateReferenceProvider scenarioStateReferenceProvider = new ScenarioStateReferenceProvider();
+    private final ScenarioStateAnnotationProvider scenarioStateAnnotationProvider = new ScenarioStateAnnotationProvider();
+    private final ScenarioStateReferenceProvider scenarioStateReferenceProvider = new ScenarioStateReferenceProvider();
 
     @Override
-    public boolean isImplicitUsage(PsiElement element) {
+    public boolean isImplicitUsage(@NotNull PsiElement element) {
         return isImplicitRead(element) || isImplicitWrite(element);
     }
 
     @Override
-    public boolean isImplicitRead(PsiElement element) {
+    public boolean isImplicitRead(@NotNull PsiElement element) {
         return scenarioStateAnnotationProvider.isProvidedScenarioState(element)
                 && hasAtLeastOneReference((PsiField) element);
     }
 
     @Override
-    public boolean isImplicitWrite(PsiElement element) {
+    public boolean isImplicitWrite(@NotNull PsiElement element) {
         return scenarioStateAnnotationProvider.isExpectedScenarioState(element)
                 && hasAtLeastOneReference((PsiField) element);
     }

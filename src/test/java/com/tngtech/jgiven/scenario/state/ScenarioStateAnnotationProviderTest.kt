@@ -13,11 +13,12 @@ import org.mockito.Mock
 import org.mockito.Mockito.`when`
 import org.mockito.Mockito.mock
 import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 
 class ScenarioStateAnnotationProviderTest {
     @Rule
     @JvmField
-    var mockitoRule = MockitoJUnit.rule()
+    var mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     @Mock
     private lateinit var annotationProvider: AnnotationProvider

@@ -17,12 +17,13 @@ import org.junit.Test
 import org.mockito.Mock
 import org.mockito.Mockito.*
 import org.mockito.junit.MockitoJUnit
+import org.mockito.junit.MockitoRule
 import java.util.*
 
 class ReferenceProviderTest {
     @Rule
     @JvmField
-    var mockitoRule = MockitoJUnit.rule()
+    var mockitoRule: MockitoRule = MockitoJUnit.rule()
 
     @Mock
     private lateinit var scenarioStateProvider: ScenarioStateAnnotationProvider

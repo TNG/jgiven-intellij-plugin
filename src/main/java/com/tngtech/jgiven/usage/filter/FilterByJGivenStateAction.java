@@ -8,15 +8,15 @@ import com.intellij.usages.UsageView;
 import com.intellij.usages.rules.UsageFilteringRuleProvider;
 import com.tngtech.jgiven.Icons;
 import com.tngtech.jgiven.scenario.state.ScenarioStateAnnotationProvider;
+import org.jetbrains.annotations.NotNull;
 
 import java.util.HashSet;
 import java.util.Set;
 import java.util.stream.Collectors;
 
 class FilterByJGivenStateAction extends ToggleAction {
-    private boolean state = true;
-    private ScenarioStateAnnotationProvider scenarioStateAnnotationProvider;
-    private UsageView usageView;
+    private final ScenarioStateAnnotationProvider scenarioStateAnnotationProvider;
+    private final UsageView usageView;
     private Set<Usage> excludedUsages = new HashSet<>();
 
     FilterByJGivenStateAction(ScenarioStateAnnotationProvider scenarioStateAnnotationProvider, UsageView usageView) {
@@ -26,7 +26,7 @@ class FilterByJGivenStateAction extends ToggleAction {
     }
 
     @Override
-    public boolean isSelected(AnActionEvent e) {
+    public boolean isSelected(@NotNull AnActionEvent e) {
         return JGivenSettings.getInstance().isJGivenFilteringEnabled();
     }
 
