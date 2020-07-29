@@ -43,8 +43,6 @@ class LineMarkerProvider : com.intellij.codeInsight.daemon.LineMarkerProvider {
         }
     }
 
-    override fun collectSlowLineMarkers(elements: List<PsiElement>, result: Collection<LineMarkerInfo<*>>) {}
-
     private fun allReferencingFields(element: PsiField) =
             scenarioStateReferenceProvider.findReferences(element, 20)
                     .mapNotNull { findParentOfTypeOn<PsiField>(it.element) }

@@ -10,8 +10,8 @@ class ScenarioStateAnnotationProvider(
         private val annotationProvider: AnnotationProvider = AnnotationProvider()
 ) {
 
-    fun isJGivenScenarioState(psiElement: PsiElement) =
-            isFieldAnnotatedWithAnyOf(psiElement, Annotations.JGIVEN_SCENARIO_STATE_CLASS_NAMES)
+    fun isJGivenScenarioState(psiElement: PsiElement?) =
+            psiElement != null && isFieldAnnotatedWithAnyOf(psiElement, Annotations.JGIVEN_SCENARIO_STATE_CLASS_NAMES)
 
     private fun isFieldAnnotatedWithAnyOf(psiElement: PsiElement, classNames: Collection<String>) =
             psiElement is PsiField && annotationProvider.findAnnotation(psiElement as PsiModifierListOwner, classNames) != null
