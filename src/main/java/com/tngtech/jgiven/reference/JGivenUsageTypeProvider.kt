@@ -8,13 +8,10 @@ import com.tngtech.jgiven.scenario.state.ScenarioStateAnnotationProvider
 class JGivenUsageTypeProvider(
         private val scenarioStateAnnotationProvider: ScenarioStateAnnotationProvider = ScenarioStateAnnotationProvider()
 ) : UsageTypeProvider {
+    val usageType = UsageType {"JGiven Scenario State"}
     override fun getUsageType(element: PsiElement) =
             when {
-                scenarioStateAnnotationProvider.isJGivenScenarioState(element) -> USAGE_TYPE
+                scenarioStateAnnotationProvider.isJGivenScenarioState(element) -> usageType
                 else -> null
             }
-
-    companion object {
-        val USAGE_TYPE = UsageType {"JGiven Scenario State"}
-    }
 }

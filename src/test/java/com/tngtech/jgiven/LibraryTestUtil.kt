@@ -27,7 +27,7 @@ class LibraryTestUtil constructor(private val myModule: Module) {
     }
 
     private fun addLibraryAt(path: String) {
-        val parts = path.split("/".toRegex()).dropLastWhile { it.isEmpty() }.toTypedArray()
+        val parts = path.split("/".toRegex()).filterNot { it.isEmpty() }.toTypedArray()
         val file = File(path)
         VfsRootAccess.allowRootAccess(myModule, parts[0])
         val fileName = file.name
