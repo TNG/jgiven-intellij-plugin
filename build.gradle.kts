@@ -49,7 +49,7 @@ dependencies {
     testImplementation(kotlin("stdlib-jdk7", kotlinVersion))
     testImplementation("com.tngtech.jgiven:jgiven-junit:0.18.2")
     testImplementation("com.tngtech.junit.dataprovider:junit4-dataprovider:2.6")
-    testImplementation("org.assertj:assertj-core:3.15.0")
+    testImplementation("org.assertj:assertj-core:3.18.1")
     testImplementation("org.mockito:mockito-core:3.2.4")
 }
 
