@@ -6,5 +6,5 @@ repositories {
 
 dependencies {
     testImplementation 'com.tngtech.jgiven:jgiven-junit:1.0.0'
-    testImplementation 'junit:junit:4.13.1'
+    testImplementation 'junit:junit:4.13.2'
 }
