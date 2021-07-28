@@ -28,7 +28,7 @@ repositories {
 }
 
 intellij {
-    version = "IC-2021.1"
+    version = "IC-2021.2"
     pluginName = "jgiven-intellij-plugin"
 
     setPlugins("java")
