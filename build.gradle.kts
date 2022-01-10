@@ -50,7 +50,7 @@ dependencies {
     testImplementation("com.tngtech.jgiven:jgiven-junit:1.1.0")
     testImplementation("com.tngtech.junit.dataprovider:junit4-dataprovider:2.8")
     testImplementation("org.assertj:assertj-core:3.22.0")
-    testImplementation("org.mockito:mockito-core:4.1.0")
+    testImplementation("org.mockito:mockito-core:4.2.0")
 }
 
 inline operator fun <T : Task> T.invoke(a: T.() -> Unit): T = apply(a)
