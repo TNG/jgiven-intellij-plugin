@@ -1,4 +1,3 @@
-import org.jetbrains.intellij.tasks.PublishTask
 import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -6,7 +5,7 @@ val jetbrainsPublishUsername: String? by project
 val jetbrainsPublishToken: String? by project
 
 plugins {
-    id("org.jetbrains.intellij") version "0.7.2"
+    id("org.jetbrains.intellij") version "1.3.0"
     kotlin("jvm") version "1.6.10"
 }
 val kotlinVersion = plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPluginVersion
@@ -28,19 +27,10 @@ repositories {
 }
 
 intellij {
-    version = "IC-2021.3"
-    pluginName = "jgiven-intellij-plugin"
+    version.set("IC-2021.3")
+    pluginName.set("jgiven-intellij-plugin")
 
-    setPlugins("java")
-}
-
-val publishPlugin: PublishTask by tasks
-
-if (jetbrainsPublishToken != null && jetbrainsPublishUsername != null) {
-    publishPlugin {
-        username(jetbrainsPublishUsername)
-        token(jetbrainsPublishToken)
-    }
+    plugins.set(listOf("java"))
 }
 
 dependencies {
