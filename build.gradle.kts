@@ -27,7 +27,7 @@ repositories {
 }
 
 intellij {
-    version.set("IC-2021.3")
+    version.set("IC-2022.1")
     pluginName.set("jgiven-intellij-plugin")
 
     plugins.set(listOf("java"))
