@@ -19,6 +19,9 @@ tasks {
     withType<KotlinCompile> {
         kotlinOptions.jvmTarget = "11"
     }
+    buildSearchableOptions {
+        enabled = false
+    }
 }
 
 repositories {
