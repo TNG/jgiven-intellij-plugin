@@ -5,7 +5,7 @@ val jetbrainsPublishUsername: String? by project
 val jetbrainsPublishToken: String? by project
 
 plugins {
-    id("org.jetbrains.intellij") version "1.13.0"
+    id("org.jetbrains.intellij") version "1.15.0"
     kotlin("jvm") version "1.9.0"
 }
 val kotlinVersion = project.getKotlinPluginVersion()
