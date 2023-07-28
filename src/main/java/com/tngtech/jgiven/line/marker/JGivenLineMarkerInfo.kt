@@ -5,10 +5,11 @@ import com.intellij.codeInsight.daemon.impl.MarkerType
 import com.intellij.openapi.editor.markup.GutterIconRenderer
 import com.intellij.psi.PsiElement
 import com.intellij.util.Function
+import java.util.function.Supplier
 import javax.swing.Icon
 
-class JGivenLineMarkerInfo(element: PsiElement, icon: Icon, markerType: MarkerType, private val text: String) : MergeableLineMarkerInfo<PsiElement>(
-        element, element.textRange, icon, markerType.tooltip, markerType.navigationHandler, GutterIconRenderer.Alignment.LEFT
+class JGivenLineMarkerInfo(element: PsiElement, icon: Icon, markerType: MarkerType, private val text: String, supplier:Supplier<String>) : MergeableLineMarkerInfo<PsiElement>(
+        element, element.textRange, icon, markerType.tooltip, markerType.navigationHandler, GutterIconRenderer.Alignment.LEFT, supplier
 ) {
 
     override fun canMergeWith(info: MergeableLineMarkerInfo<*>): Boolean {

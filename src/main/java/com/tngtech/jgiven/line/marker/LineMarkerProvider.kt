@@ -1,7 +1,6 @@
 package com.tngtech.jgiven.line.marker
 
 import com.google.common.collect.Iterables
-import com.intellij.codeInsight.daemon.LineMarkerInfo
 import com.intellij.codeInsight.daemon.impl.LineMarkerNavigator
 import com.intellij.codeInsight.daemon.impl.MarkerType
 import com.intellij.codeInsight.daemon.impl.PsiElementListNavigator
@@ -27,7 +26,7 @@ class LineMarkerProvider : com.intellij.codeInsight.daemon.LineMarkerProvider {
         val references = allReferencingFields(field)
         return when {
             references.isEmpty() -> null
-            else -> JGivenLineMarkerInfo(element, Icons.JGIVEN, MarkerType("jgiven", { "JGiven States" }, navigatorToElements()), "JGiven States")
+            else -> JGivenLineMarkerInfo(element, Icons.JGIVEN, MarkerType("jgiven", { "JGiven States" }, navigatorToElements()), "JGiven States") { "JGiven States" }
         }
     }
 
