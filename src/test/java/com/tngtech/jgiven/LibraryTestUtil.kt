@@ -17,10 +17,22 @@ class LibraryTestUtil constructor(private val myModule: Module) {
     private val references = ArrayList<Ref<Library>>()
 
     private fun addJarContaining(clazz: Class<*>): LibraryTestUtil {
-        val path = clazz.protectionDomain.codeSource.location.path
-        addLibraryAt(path)
+        val path = getJarPath(clazz)
+        if (path != null)
+            addLibraryAt(path)
         return this
     }
+
+    private fun getJarPath(clazz: Class<*>): String? {
+        val className = clazz.name.replace('.', '/') + ".class"
+        val classPath = clazz.classLoader.getResource(className)?.toString() ?: return null
+        return if (classPath.startsWith("jar")) {
+            classPath.substringAfter("jar:file:").substringBefore('!')
+        } else {
+            null
+        }
+    }
+
 
     fun addJGiven(): LibraryTestUtil {
         return addJarContaining(ScenarioState::class.java)
@@ -31,7 +43,9 @@ class LibraryTestUtil constructor(private val myModule: Module) {
         val file = File(path)
         VfsRootAccess.allowRootAccess(myModule, parts[0])
         val fileName = file.name
-        ModuleRootModificationUtil.updateModel(myModule) { model -> references.add(Ref.create(PsiTestUtil.addLibrary(model, fileName, file.parent, fileName))) }
+        ModuleRootModificationUtil.updateModel(myModule) { model -> references.add(Ref.create(PsiTestUtil.addLibrary(
+            model, fileName, file.parent, fileName
+        ))) }
     }
 
     internal fun removeLibraries() {
