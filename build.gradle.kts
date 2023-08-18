@@ -29,7 +29,7 @@ repositories {
 }
 
 intellij {
-    version.set("IC-2022.2")
+    version.set("IC-2023.1")
     pluginName.set("jgiven-intellij-plugin")
     plugins.set(listOf("java"))
 }
@@ -38,10 +38,10 @@ dependencies {
     implementation(kotlin("stdlib", kotlinVersion))
 
     testImplementation(kotlin("stdlib-jdk7", kotlinVersion))
-    testImplementation("com.tngtech.jgiven:jgiven-junit:1.2.2")
+    testImplementation("com.tngtech.jgiven:jgiven-junit:1.2.5")
     testImplementation("com.tngtech.junit.dataprovider:junit4-dataprovider:2.10")
     testImplementation("org.assertj:assertj-core:3.24.2")
-    testImplementation("org.mockito:mockito-core:4.6.1")
+    testImplementation("org.mockito:mockito-core:5.1.1")
 }
 
 inline operator fun <T : Task> T.invoke(a: T.() -> Unit): T = apply(a)
