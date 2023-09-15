@@ -1,7 +1,7 @@
 <idea-plugin>
     <id>JGivenPlugin</id>
     <name>JGiven</name>
-    <version>0.0.16</version>
+    <version>0.0.17</version>
 
     <description>Provides support for navigation between JGiven scenario states.</description>
     <change-notes>
@@ -9,7 +9,7 @@
     </change-notes>
     <vendor email="matthias.klass@tngtech.com" url="http://www.tngtech.com">TNG Technology Consulting GmbH</vendor>
 
-    <idea-version since-build="163.6110.112"/>
+    <idea-version since-build="222.3345"/>
 
     <depends>com.intellij.modules.java</depends>
 

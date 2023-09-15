@@ -10,9 +10,9 @@ class ScenarioStateUsageProviderIntegrationTest : BaseTestCase() {
 
     private val usageFilesForAllTests: Set<String>
         get() = File("$testDataPath/common").listFiles()!!
-                .map { it.name }
-                .map { name -> "common/$name" }
-                .toSet()
+            .map { it.name }
+            .map { name -> "common/$name" }
+            .toSet()
 
     fun test_find_Usages_for_type() {
         configureByFile("ForClass.java")
@@ -47,7 +47,7 @@ class ScenarioStateUsageProviderIntegrationTest : BaseTestCase() {
     }
 
     private fun getOnlyUsageFilename(usages: Collection<UsageInfo>) =
-            Iterables.getOnlyElement(usages).file!!.name
+        Iterables.getOnlyElement(usages).file!!.name
 
     private fun findUsages(): Collection<UsageInfo> {
         val element = myFixture.elementAtCaret

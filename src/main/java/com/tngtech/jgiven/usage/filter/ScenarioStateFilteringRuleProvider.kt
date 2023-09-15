@@ -3,21 +3,21 @@ package com.tngtech.jgiven.usage.filter
 import com.intellij.openapi.actionSystem.AnAction
 import com.intellij.openapi.project.Project
 import com.intellij.usages.ConfigurableUsageTarget
-import com.intellij.usages.UsageTarget
 import com.intellij.usages.UsageView
 import com.intellij.usages.impl.UsageViewImpl
 import com.intellij.usages.rules.UsageFilteringRule
 import com.intellij.usages.rules.UsageFilteringRuleProvider
 import com.tngtech.jgiven.scenario.state.ScenarioStateAnnotationProvider
-import java.util.*
 
 class ScenarioStateFilteringRuleProvider : UsageFilteringRuleProvider {
     private val scenarioStateAnnotationProvider = ScenarioStateAnnotationProvider()
 
+    @Deprecated("Use instead getApplicableRules", ReplaceWith("getApplicableRules()"))
     override fun getActiveRules(project: Project): Array<UsageFilteringRule> {
         return emptyArray()
     }
 
+    @Deprecated("Use instead UsageFilteringRule.getActionId", ReplaceWith("UsageFilteringRule.getActionId()"))
     override fun createFilteringActions(view: UsageView): Array<AnAction> {
         return when {
             isNormalFindUsagesDialogAndNotShowUsages(view) -> arrayOf(

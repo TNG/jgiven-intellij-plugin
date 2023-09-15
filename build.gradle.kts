@@ -1,33 +1,35 @@
-import org.jetbrains.kotlin.gradle.plugin.KotlinPluginWrapper
+import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
 val jetbrainsPublishUsername: String? by project
 val jetbrainsPublishToken: String? by project
 
 plugins {
-    id("org.jetbrains.intellij") version "1.7.0"
-    kotlin("jvm") version "1.6.10"
+    id("org.jetbrains.intellij") version "1.15.0"
+    kotlin("jvm") version "1.9.0"
 }
-val kotlinVersion = plugins.getPlugin(KotlinPluginWrapper::class.java).kotlinPluginVersion
+val kotlinVersion = project.getKotlinPluginVersion()
 
-configure<JavaPluginConvention> {
-    sourceCompatibility = JavaVersion.VERSION_1_8
-    targetCompatibility = JavaVersion.VERSION_1_8
+configure<JavaPluginExtension> {
+    sourceCompatibility = JavaVersion.VERSION_17
+    targetCompatibility = JavaVersion.VERSION_17
 }
 
 tasks {
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "1.8"
+        kotlinOptions.jvmTarget = "17"
+    }
+    buildSearchableOptions {
+        enabled = false
     }
 }
 
 repositories {
-    jcenter()
     mavenCentral()
 }
 
 intellij {
-    version.set("IC-2022.2")
+    version.set("IC-2023.1")
     pluginName.set("jgiven-intellij-plugin")
     plugins.set(listOf("java"))
 }
@@ -36,10 +38,10 @@ dependencies {
     implementation(kotlin("stdlib", kotlinVersion))
 
     testImplementation(kotlin("stdlib-jdk7", kotlinVersion))
-    testImplementation("com.tngtech.jgiven:jgiven-junit:1.2.2")
+    testImplementation("com.tngtech.jgiven:jgiven-junit:1.2.5")
     testImplementation("com.tngtech.junit.dataprovider:junit4-dataprovider:2.10")
     testImplementation("org.assertj:assertj-core:3.24.2")
-    testImplementation("org.mockito:mockito-core:4.6.1")
+    testImplementation("org.mockito:mockito-core:5.1.1")
 }
 
 inline operator fun <T : Task> T.invoke(a: T.() -> Unit): T = apply(a)
