@@ -29,7 +29,7 @@ repositories {
 }
 
 intellij {
-    version.set("IC-2023.1")
+    version.set("IC-2023.3")
     pluginName.set("jgiven-intellij-plugin")
     plugins.set(listOf("java"))
 }
