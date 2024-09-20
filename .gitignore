@@ -2,6 +2,7 @@ target/
 *.*~
 *.iml
 .idea
+.intellijPlatform
 build
 .gradle
 classes
