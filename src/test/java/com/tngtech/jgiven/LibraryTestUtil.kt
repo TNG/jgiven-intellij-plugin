@@ -9,11 +9,18 @@ import com.intellij.openapi.util.Ref
 import com.intellij.openapi.vfs.newvfs.impl.VfsRootAccess
 import com.intellij.testFramework.PsiTestUtil
 import com.tngtech.jgiven.annotation.ScenarioState
+import org.junit.Ignore
 import java.io.File
 
-class LibraryTestUtil constructor(private val myModule: Module) {
+@Ignore
+class LibraryTestUtil {
 
+    private lateinit var myModule: Module
     private val references = ArrayList<Ref<Library>>()
+
+    fun setModule(module: Module) {
+        myModule = module
+    }
 
     private fun addJarContaining(clazz: Class<*>): LibraryTestUtil {
         val path = getJarPath(clazz)
