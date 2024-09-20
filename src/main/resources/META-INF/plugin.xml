@@ -9,7 +9,7 @@
     </change-notes>
     <vendor email="matthias.klass@tngtech.com" url="http://www.tngtech.com">TNG Technology Consulting GmbH</vendor>
 
-    <idea-version since-build="222.3345"/>
+    <idea-version since-build="242.22855"/>
 
     <depends>com.intellij.modules.java</depends>
 

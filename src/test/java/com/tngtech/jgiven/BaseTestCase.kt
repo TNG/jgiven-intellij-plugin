@@ -12,7 +12,9 @@ abstract class BaseTestCase : LightJavaCodeInsightFixtureTestCase() {
     @Throws(Exception::class)
     public override fun setUp() {
         super.setUp()
-        libraryTestUtil = LibraryTestUtil(module).addJGiven()
+        libraryTestUtil = LibraryTestUtil()
+        libraryTestUtil.setModule(module)
+        libraryTestUtil = libraryTestUtil.addJGiven()
     }
 
     @Throws(Exception::class)
