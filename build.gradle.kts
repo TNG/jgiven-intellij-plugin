@@ -5,8 +5,8 @@ val jetbrainsPublishUsername: String? by project
 val jetbrainsPublishToken: String? by project
 
 plugins {
-    id("org.jetbrains.intellij") version "1.15.0"
-    kotlin("jvm") version "1.9.0"
+    id("org.jetbrains.intellij") version "1.17.4"
+    kotlin("jvm") version "2.0.20"
 }
 val kotlinVersion = project.getKotlinPluginVersion()
 
@@ -29,7 +29,7 @@ repositories {
 }
 
 intellij {
-    version.set("IC-2024.2")
+    version.set("IC-2023.3")
     pluginName.set("jgiven-intellij-plugin")
     plugins.set(listOf("java"))
 }
@@ -41,7 +41,7 @@ dependencies {
     testImplementation("com.tngtech.jgiven:jgiven-junit:1.2.5")
     testImplementation("com.tngtech.junit.dataprovider:junit4-dataprovider:2.10")
     testImplementation("org.assertj:assertj-core:3.24.2")
-    testImplementation("org.mockito:mockito-core:5.1.1")
+    testImplementation("org.mockito:mockito-core:5.13.0")
 }
 
 inline operator fun <T : Task> T.invoke(a: T.() -> Unit): T = apply(a)
