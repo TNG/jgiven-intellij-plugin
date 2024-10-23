@@ -33,12 +33,6 @@ repositories {
     }
 }
 
-intellijPlatform {
-    pluginConfiguration {
-        name = "jgiven-intellij-plugin"
-    }
-}
-
 dependencies {
     intellijPlatform {
         intellijIdeaCommunity("2024.2")
