@@ -12,9 +12,8 @@ import com.tngtech.jgiven.scenario.state.ScenarioStateAnnotationProvider
 class ScenarioStateFilteringRuleProvider : UsageFilteringRuleProvider {
     private val scenarioStateAnnotationProvider = ScenarioStateAnnotationProvider()
 
-    @Deprecated("Use instead getApplicableRules", ReplaceWith("getApplicableRules()"))
-    override fun getActiveRules(project: Project): Array<UsageFilteringRule> {
-        return emptyArray()
+    override fun getApplicableRules(project: Project): Collection<UsageFilteringRule> {
+        return emptyList()
     }
 
     @Deprecated("Use instead UsageFilteringRule.getActionId", ReplaceWith("UsageFilteringRule.getActionId()"))
