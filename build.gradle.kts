@@ -48,7 +48,7 @@ dependencies {
     testImplementation("com.tngtech.jgiven:jgiven-junit:1.3.0")
     testImplementation("com.tngtech.junit.dataprovider:junit4-dataprovider:2.10")
     testImplementation("org.assertj:assertj-core:3.26.3")
-    testImplementation("org.mockito:mockito-core:5.14.1")
+    testImplementation("org.mockito:mockito-core:5.16.1")
 
     testImplementation("org.opentest4j:opentest4j:1.3.0")
 }
