@@ -1,4 +1,5 @@
 import org.jetbrains.intellij.platform.gradle.TestFrameworkType
+import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 import org.jetbrains.kotlin.gradle.plugin.getKotlinPluginVersion
 import org.jetbrains.kotlin.gradle.tasks.KotlinCompile
 
@@ -18,7 +19,7 @@ configure<JavaPluginExtension> {
 
 tasks {
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
+        compilerOptions.jvmTarget.set(JvmTarget.JVM_17)
     }
     buildSearchableOptions {
         enabled = false
@@ -42,7 +43,7 @@ dependencies {
         testFramework(TestFrameworkType.Plugin.Java)
     }
 
-    implementation(kotlin("stdlib", kotlinVersion))
+
 
     testImplementation(kotlin("stdlib-jdk7", kotlinVersion))
     testImplementation("com.tngtech.jgiven:jgiven-junit:1.3.0")

@@ -1,6 +1,6 @@
 package com.tngtech.jgiven.usage.filter
 
-import com.intellij.openapi.components.ServiceManager
+import com.intellij.openapi.application.ApplicationManager
 import com.intellij.openapi.components.State
 import com.intellij.openapi.components.Storage
 
@@ -10,6 +10,6 @@ class JGivenSettings {
 
     companion object {
         val instance: JGivenSettings
-            get() = ServiceManager.getService(JGivenSettings::class.java)
+            get() = ApplicationManager.getApplication().getService(JGivenSettings::class.java)
     }
 }
