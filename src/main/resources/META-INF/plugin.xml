@@ -1,15 +1,15 @@
 <idea-plugin>
     <id>JGivenPlugin</id>
     <name>JGiven</name>
-    <version>0.0.21</version>
+    <version>0.0.22</version>
 
     <description>Provides support for navigation between JGiven scenario states.</description>
     <change-notes>
-        The plugin now supports IntelliJ version 2024.2.
+        The plugin now supports IntelliJ version 2026.2.
     </change-notes>
     <vendor email="matthias.klass@tngtech.com" url="http://www.tngtech.com">TNG Technology Consulting GmbH</vendor>
 
-    <idea-version since-build="222.3345"/>
+    <idea-version since-build="262"/>
 
     <depends>com.intellij.modules.java</depends>
 
