@@ -6,22 +6,28 @@ val jetbrainsPublishUsername: String? by project
 val jetbrainsPublishToken: String? by project
 
 plugins {
-    id("org.jetbrains.intellij.platform") version "2.1.0"
-    id("org.jetbrains.kotlin.jvm") version "2.0.21"
+    id("org.jetbrains.intellij.platform") version "2.18.1"
+    id("org.jetbrains.kotlin.jvm") version "2.4.10"
 }
 val kotlinVersion = project.getKotlinPluginVersion()
 
 configure<JavaPluginExtension> {
-    sourceCompatibility = JavaVersion.VERSION_17
-    targetCompatibility = JavaVersion.VERSION_17
+    sourceCompatibility = JavaVersion.VERSION_21
+    targetCompatibility = JavaVersion.VERSION_21
 }
 
 tasks {
     withType<KotlinCompile> {
-        kotlinOptions.jvmTarget = "17"
+        compilerOptions {
+            jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
+        }
     }
     buildSearchableOptions {
         enabled = false
+    }
+    patchPluginXml {
+        sinceBuild.set("262")
+        untilBuild.set(provider { null })
     }
 }
 
@@ -30,15 +36,19 @@ repositories {
 
     intellijPlatform {
         defaultRepositories()
+        snapshots()
     }
 }
 
 dependencies {
     intellijPlatform {
-        intellijIdeaCommunity("2024.2")
+        intellijIdea("262-EAP-SNAPSHOT") {
+            useInstaller = false
+        }
+        jetbrainsRuntime()
         bundledPlugin("com.intellij.java")
-        instrumentationTools()
 
+        testFramework(TestFrameworkType.Platform)
         testFramework(TestFrameworkType.Plugin.Java)
     }
 
@@ -48,7 +58,7 @@ dependencies {
     testImplementation("com.tngtech.jgiven:jgiven-junit:1.3.0")
     testImplementation("com.tngtech.junit.dataprovider:junit4-dataprovider:2.10")
     testImplementation("org.assertj:assertj-core:3.26.3")
-    testImplementation("org.mockito:mockito-core:5.14.1")
+    testImplementation("org.mockito:mockito-core:5.18.0")
 
     testImplementation("org.opentest4j:opentest4j:1.3.0")
 }
