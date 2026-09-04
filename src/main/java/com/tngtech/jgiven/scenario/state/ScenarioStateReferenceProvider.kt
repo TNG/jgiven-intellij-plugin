@@ -1,6 +1,6 @@
 package com.tngtech.jgiven.scenario.state
 
-import com.intellij.openapi.fileTypes.StdFileTypes
+import com.intellij.ide.highlighter.JavaFileType
 import com.intellij.openapi.project.Project
 import com.intellij.psi.PsiField
 import com.intellij.psi.PsiManager
@@ -29,7 +29,7 @@ class ScenarioStateReferenceProvider {
     }
 
     private fun javaFilesScope(project: Project): GlobalSearchScope {
-        return GlobalSearchScope.getScopeRestrictedByFileTypes(GlobalSearchScope.allScope(project), StdFileTypes.JAVA)
+        return GlobalSearchScope.getScopeRestrictedByFileTypes(GlobalSearchScope.allScope(project), JavaFileType.INSTANCE)
     }
 
     private fun findPsiFields(project: Project, scope: GlobalSearchScope, processor: Processor<PsiField>) {
