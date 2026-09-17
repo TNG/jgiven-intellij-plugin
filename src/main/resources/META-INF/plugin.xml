@@ -21,7 +21,16 @@
         <useScopeEnlarger implementation="com.tngtech.jgiven.JGivenUseScopeEnlarger"/>
         <usageFilteringRuleProvider
                 implementation="com.tngtech.jgiven.usage.filter.ScenarioStateFilteringRuleProvider"/>
-        <applicationService serviceImplementation="com.tngtech.jgiven.usage.filter.JGivenSettings"/>
         <implicitUsageProvider implementation="com.tngtech.jgiven.usage.implicit.ImplicitScenarioStateUsageProvider"/>
     </extensions>
+
+    <actions>
+        <action id="UsageFiltering.JGiven"
+                class="com.intellij.openapi.actionSystem.EmptyAction"
+                icon="/icons/jgiven.png"
+                text="JGiven"
+                description="Filter by JGiven Scenario State">
+            <add-to-group group-id="UsageFilteringActionGroup" anchor="last"/>
+        </action>
+    </actions>
 </idea-plugin>

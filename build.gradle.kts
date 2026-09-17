@@ -22,6 +22,9 @@ tasks {
             jvmTarget.set(org.jetbrains.kotlin.gradle.dsl.JvmTarget.JVM_21)
         }
     }
+    withType<JavaCompile> {
+        options.release.set(21)
+    }
     buildSearchableOptions {
         enabled = false
     }
@@ -42,7 +45,7 @@ repositories {
 
 dependencies {
     intellijPlatform {
-        intellijIdea("262-EAP-SNAPSHOT") {
+        intellijIdea("2026.2.1") {
             useInstaller = false
         }
         jetbrainsRuntime()
